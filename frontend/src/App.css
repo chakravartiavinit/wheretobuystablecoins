@@ -242,12 +242,12 @@
 /* 3D Globe Styles - Type1 Ventures Style */
 .globe-container {
   position: fixed;
-  top: -60%;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
-  width: 200%;
-  max-width: 3000px;
-  height: 120%;
+  transform: translate(-50%, -50%);
+  width: 180%;
+  max-width: 3500px;
+  height: 180%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -257,8 +257,8 @@
 
 .globe {
   position: relative;
-  width: 2400px;
-  height: 2400px;
+  width: 2800px;
+  height: 2800px;
 }
 
 .globe-sphere {
@@ -328,35 +328,26 @@
 
 @media (max-width: 1400px) {
   .globe {
-    width: 2000px;
-    height: 2000px;
-  }
-  
-  .globe-container {
-    top: -55%;
+    width: 2200px;
+    height: 2200px;
   }
 }
 
 @media (max-width: 768px) {
   .globe-container {
-    top: -50%;
-    width: 250%;
+    width: 200%;
   }
   
   .globe {
-    width: 1600px;
-    height: 1600px;
+    width: 1800px;
+    height: 1800px;
   }
 }
 
 @media (max-width: 480px) {
   .globe {
-    width: 1200px;
-    height: 1200px;
-  }
-  
-  .globe-container {
-    top: -45%;
+    width: 1400px;
+    height: 1400px;
   }
 }
 
