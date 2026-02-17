@@ -242,7 +242,7 @@
 /* Arc/Globe Styles - Centered Arc Background */
 .globe-container {
   position: fixed;
-  bottom: -130vh;
+  bottom: -80vh;
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
@@ -258,8 +258,8 @@
   position: relative;
   width: 200vw;
   height: 200vw;
-  min-width: 2500px;
-  min-height: 2500px;
+  min-width: 2000px;
+  min-height: 2000px;
 }
 
 .globe-sphere {
