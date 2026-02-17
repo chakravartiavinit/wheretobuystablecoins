@@ -176,7 +176,7 @@
 .feature-text {
   font-size: 12px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.4);
+  color: #694786;
   margin: 0;
   letter-spacing: 0.8px;
   text-transform: uppercase;
@@ -184,7 +184,7 @@
 }
 
 .feature-item:hover .feature-text {
-  color: #14b8a6;
+  color: #F1B7EA;
 }
 
 @media (max-width: 768px) {
