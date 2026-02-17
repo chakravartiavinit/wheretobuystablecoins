@@ -44,6 +44,10 @@ const WaitlistPage = () => {
       <AnimatedBackground />
       
       <div className="waitlist-content">
+        <div className="status-badge">
+          <span className="status-badge-text">Under Progress</span>
+        </div>
+        
         <h1 className="waitlist-title">Coming Soon</h1>
         
         <p className="waitlist-description">
