@@ -1,7 +1,7 @@
-/* Waitlist Page Styles - Black Background with Dark Purple UI */
+/* Waitlist Page Styles - Dark Purple Theme */
 .waitlist-container {
   min-height: 100vh;
-  background: #000000;
+  background: #1A1347;
   display: flex;
   align-items: center;
   justify-content: center;
