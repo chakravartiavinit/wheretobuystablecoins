@@ -19,254 +19,175 @@ const AnimatedBackground = () => {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    // Particle system
-    class Particle {
+    // Stars
+    class Star {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2.5;
+        this.opacity = Math.random();
+        this.twinkleSpeed = Math.random() * 0.05 + 0.01;
+      }
+
+      draw() {
+        ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      update() {
+        this.opacity += this.twinkleSpeed;
+        if (this.opacity > 1 || this.opacity < 0) {
+          this.twinkleSpeed *= -1;
+        }
+      }
+    }
+
+    // Shooting stars
+    class ShootingStar {
       constructor() {
         this.reset();
       }
 
       reset() {
         this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.z = Math.random() * 1500;
-        this.size = Math.random() * 2 + 0.5;
-        this.velocity = Math.random() * 0.5 + 0.2;
-      }
-
-      update() {
-        this.z -= this.velocity * 3;
-        if (this.z <= 0) {
-          this.reset();
-          this.z = 1500;
-        }
-      }
-
-      draw() {
-        const x = (this.x - canvas.width / 2) * (1000 / this.z) + canvas.width / 2;
-        const y = (this.y - canvas.height / 2) * (1000 / this.z) + canvas.height / 2;
-        const size = (1 - this.z / 1500) * this.size * 3;
-        const opacity = 1 - this.z / 1500;
-
-        ctx.fillStyle = `rgba(164, 134, 176, ${opacity * 0.6})`;
-        ctx.beginPath();
-        ctx.arc(x, y, size, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    }
-
-    // Floating geometric shapes
-    class GeometricShape {
-      constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 60 + 30;
-        this.rotation = Math.random() * Math.PI * 2;
-        this.rotationSpeed = (Math.random() - 0.5) * 0.02;
-        this.speedX = (Math.random() - 0.5) * 0.3;
-        this.speedY = (Math.random() - 0.5) * 0.3;
-        this.opacity = Math.random() * 0.1 + 0.05;
-        this.type = Math.floor(Math.random() * 3);
-      }
-
-      update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        this.rotation += this.rotationSpeed;
-
-        if (this.x < -this.size) this.x = canvas.width + this.size;
-        if (this.x > canvas.width + this.size) this.x = -this.size;
-        if (this.y < -this.size) this.y = canvas.height + this.size;
-        if (this.y > canvas.height + this.size) this.y = -this.size;
+        this.y = Math.random() * canvas.height * 0.5;
+        this.length = Math.random() * 80 + 40;
+        this.speed = Math.random() * 8 + 4;
+        this.opacity = 1;
+        this.angle = Math.PI / 4;
       }
 
       draw() {
         ctx.save();
         ctx.translate(this.x, this.y);
-        ctx.rotate(this.rotation);
-        ctx.strokeStyle = `rgba(93, 71, 154, ${this.opacity})`;
-        ctx.lineWidth = 2;
+        ctx.rotate(this.angle);
 
-        if (this.type === 0) {
-          // Triangle
-          ctx.beginPath();
-          ctx.moveTo(0, -this.size / 2);
-          ctx.lineTo(this.size / 2, this.size / 2);
-          ctx.lineTo(-this.size / 2, this.size / 2);
-          ctx.closePath();
-          ctx.stroke();
-        } else if (this.type === 1) {
-          // Square
-          ctx.strokeRect(-this.size / 2, -this.size / 2, this.size, this.size);
-        } else {
-          // Hexagon
-          ctx.beginPath();
-          for (let i = 0; i < 6; i++) {
-            const angle = (Math.PI / 3) * i;
-            const x = Math.cos(angle) * this.size / 2;
-            const y = Math.sin(angle) * this.size / 2;
-            if (i === 0) ctx.moveTo(x, y);
-            else ctx.lineTo(x, y);
-          }
-          ctx.closePath();
-          ctx.stroke();
-        }
+        const gradient = ctx.createLinearGradient(0, 0, -this.length, 0);
+        gradient.addColorStop(0, `rgba(241, 183, 234, ${this.opacity})`);
+        gradient.addColorStop(1, `rgba(241, 183, 234, 0)`);
+
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(-this.length, 0);
+        ctx.stroke();
 
         ctx.restore();
       }
-    }
-
-    // Energy lines
-    class EnergyLine {
-      constructor() {
-        this.reset();
-      }
-
-      reset() {
-        this.x = Math.random() * canvas.width;
-        this.y = -50;
-        this.length = Math.random() * 150 + 100;
-        this.speed = Math.random() * 3 + 2;
-        this.opacity = Math.random() * 0.3 + 0.2;
-        this.width = Math.random() * 2 + 1;
-      }
 
       update() {
-        this.y += this.speed;
-        if (this.y > canvas.height + this.length) {
+        this.x += Math.cos(this.angle) * this.speed;
+        this.y += Math.sin(this.angle) * this.speed;
+        this.opacity -= 0.01;
+
+        if (this.opacity <= 0 || this.x > canvas.width || this.y > canvas.height) {
           this.reset();
         }
       }
-
-      draw() {
-        const gradient = ctx.createLinearGradient(this.x, this.y, this.x, this.y + this.length);
-        gradient.addColorStop(0, `rgba(241, 183, 234, 0)`);
-        gradient.addColorStop(0.5, `rgba(241, 183, 234, ${this.opacity})`);
-        gradient.addColorStop(1, `rgba(93, 71, 154, 0)`);
-
-        ctx.strokeStyle = gradient;
-        ctx.lineWidth = this.width;
-        ctx.beginPath();
-        ctx.moveTo(this.x, this.y);
-        ctx.lineTo(this.x, this.y + this.length);
-        ctx.stroke();
-      }
     }
 
-    const particles = Array.from({ length: 150 }, () => new Particle());
-    const shapes = Array.from({ length: 15 }, () => new GeometricShape());
-    const energyLines = Array.from({ length: 20 }, () => new EnergyLine());
-
-    // Draw 3D grid
-    const drawGrid = () => {
-      const gridSize = 50;
-      const perspective = 500;
-      const gridY = canvas.height * 0.85;
-
-      ctx.strokeStyle = 'rgba(93, 71, 154, 0.15)';
-      ctx.lineWidth = 1;
-
-      // Horizontal lines
-      for (let i = -10; i <= 10; i++) {
-        const z = i * gridSize + (time * 2) % gridSize;
-        const scale = perspective / (perspective + z);
-        const y = gridY + z * scale;
-        const x1 = canvas.width / 2 - 500 * scale;
-        const x2 = canvas.width / 2 + 500 * scale;
-
-        if (scale > 0 && y < canvas.height) {
-          ctx.globalAlpha = Math.max(0, 1 - z / 500);
-          ctx.beginPath();
-          ctx.moveTo(x1, y);
-          ctx.lineTo(x2, y);
-          ctx.stroke();
-        }
+    // Nebula clouds
+    class NebulaCloud {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.radius = Math.random() * 200 + 150;
+        this.opacity = Math.random() * 0.03 + 0.02;
+        this.hue = Math.random() * 30 + 260; // Purple range
+        this.drift = {
+          x: (Math.random() - 0.5) * 0.1,
+          y: (Math.random() - 0.5) * 0.1
+        };
       }
 
-      // Vertical lines
-      for (let i = -10; i <= 10; i++) {
-        ctx.beginPath();
-        const x = canvas.width / 2 + i * gridSize;
-        ctx.moveTo(x, gridY);
-        
-        for (let z = 0; z < 500; z += 10) {
-          const zPos = z + (time * 2) % gridSize;
-          const scale = perspective / (perspective + zPos);
-          const y = gridY + zPos * scale;
-          const xProjected = canvas.width / 2 + (i * gridSize - canvas.width / 2) * scale + canvas.width / 2 * (1 - scale);
-          
-          if (scale > 0 && y < canvas.height) {
-            ctx.globalAlpha = Math.max(0, 1 - zPos / 500) * 0.15;
-            ctx.lineTo(xProjected, y);
-          }
-        }
-        ctx.stroke();
-      }
-
-      ctx.globalAlpha = 1;
-    };
-
-    // Draw scan lines
-    const drawScanLines = () => {
-      ctx.strokeStyle = 'rgba(93, 71, 154, 0.03)';
-      ctx.lineWidth = 1;
-      for (let i = 0; i < canvas.height; i += 4) {
-        ctx.beginPath();
-        ctx.moveTo(0, i);
-        ctx.lineTo(canvas.width, i);
-        ctx.stroke();
-      }
-    };
-
-    // Draw glowing orbs
-    const drawOrbs = () => {
-      const orbCount = 3;
-      for (let i = 0; i < orbCount; i++) {
-        const x = canvas.width * (0.2 + i * 0.3) + Math.sin(time * 0.001 + i * 2) * 100;
-        const y = canvas.height * 0.3 + Math.cos(time * 0.0015 + i * 2) * 80;
-        const radius = 150 + Math.sin(time * 0.002 + i) * 50;
-
-        const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
-        gradient.addColorStop(0, 'rgba(93, 71, 154, 0.08)');
-        gradient.addColorStop(0.5, 'rgba(105, 71, 134, 0.03)');
-        gradient.addColorStop(1, 'rgba(93, 71, 154, 0)');
+      draw() {
+        const gradient = ctx.createRadialGradient(
+          this.x, this.y, 0,
+          this.x, this.y, this.radius
+        );
+        gradient.addColorStop(0, `hsla(${this.hue}, 80%, 60%, ${this.opacity})`);
+        gradient.addColorStop(0.5, `hsla(${this.hue}, 70%, 50%, ${this.opacity * 0.5})`);
+        gradient.addColorStop(1, `hsla(${this.hue}, 60%, 40%, 0)`);
 
         ctx.fillStyle = gradient;
         ctx.beginPath();
-        ctx.arc(x, y, radius, 0, Math.PI * 2);
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         ctx.fill();
       }
-    };
+
+      update() {
+        this.x += this.drift.x;
+        this.y += this.drift.y;
+
+        if (this.x < -this.radius) this.x = canvas.width + this.radius;
+        if (this.x > canvas.width + this.radius) this.x = -this.radius;
+        if (this.y < -this.radius) this.y = canvas.height + this.radius;
+        if (this.y > canvas.height + this.radius) this.y = -this.radius;
+      }
+    }
+
+    // Floating particles (space dust)
+    class SpaceDust {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 1.5 + 0.5;
+        this.speedX = (Math.random() - 0.5) * 0.3;
+        this.speedY = (Math.random() - 0.5) * 0.3;
+        this.opacity = Math.random() * 0.4 + 0.2;
+      }
+
+      draw() {
+        ctx.fillStyle = `rgba(164, 134, 176, ${this.opacity})`;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+
+        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+      }
+    }
+
+    const stars = Array.from({ length: 200 }, () => new Star());
+    const shootingStars = Array.from({ length: 3 }, () => new ShootingStar());
+    const nebulaClouds = Array.from({ length: 5 }, () => new NebulaCloud());
+    const spaceDust = Array.from({ length: 50 }, () => new SpaceDust());
 
     const animate = () => {
-      // Clear with black background
+      // Deep space background
       ctx.fillStyle = '#000000';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Draw glowing orbs
-      drawOrbs();
-
-      // Draw 3D grid
-      drawGrid();
-
-      // Draw scan lines
-      drawScanLines();
-
-      // Update and draw geometric shapes
-      shapes.forEach(shape => {
-        shape.update();
-        shape.draw();
+      // Draw nebula clouds
+      nebulaClouds.forEach(cloud => {
+        cloud.update();
+        cloud.draw();
       });
 
-      // Update and draw energy lines
-      energyLines.forEach(line => {
-        line.update();
-        line.draw();
+      // Draw stars
+      stars.forEach(star => {
+        star.update();
+        star.draw();
       });
 
-      // Update and draw particles with depth
-      particles.forEach(particle => {
-        particle.update();
-        particle.draw();
+      // Draw space dust
+      spaceDust.forEach(dust => {
+        dust.update();
+        dust.draw();
+      });
+
+      // Draw shooting stars
+      shootingStars.forEach(star => {
+        star.update();
+        star.draw();
       });
 
       time++;
@@ -282,18 +203,39 @@ const AnimatedBackground = () => {
   }, []);
 
   return (
-    <canvas
-      ref={canvasRef}
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        zIndex: 0,
-        pointerEvents: 'none',
-      }}
-    />
+    <>
+      <canvas
+        ref={canvasRef}
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: 0,
+          pointerEvents: 'none',
+        }}
+      />
+      <div
+        style={{
+          position: 'fixed',
+          bottom: '-20%',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: '140%',
+          maxWidth: '2000px',
+          height: '80%',
+          backgroundImage: 'url(/globe.png)',
+          backgroundSize: 'contain',
+          backgroundPosition: 'center top',
+          backgroundRepeat: 'no-repeat',
+          opacity: 0.4,
+          zIndex: 0,
+          pointerEvents: 'none',
+          filter: 'brightness(0.9)',
+        }}
+      />
+    </>
   );
 };
 
