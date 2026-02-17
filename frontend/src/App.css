@@ -1,0 +1,205 @@
+/* Waitlist Page Styles */
+.waitlist-container {
+  min-height: 100vh;
+  background: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.waitlist-content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  width: 100%;
+  text-align: center;
+}
+
+.waitlist-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 60px;
+}
+
+.logo-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-text {
+  font-size: 20px;
+  font-weight: 500;
+  color: #FFFFFF;
+  letter-spacing: 0;
+}
+
+.waitlist-title {
+  font-size: 66px;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.62px;
+  color: #FFFFFF;
+  margin-bottom: 32px;
+  text-transform: uppercase;
+}
+
+.waitlist-description {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 60px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.waitlist-form {
+  margin-bottom: 80px;
+}
+
+.form-group {
+  display: flex;
+  gap: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+  flex-direction: row;
+  align-items: stretch;
+}
+
+.waitlist-input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 0px;
+  padding: 14px 24px;
+  font-size: 18px;
+  font-weight: 400;
+  color: #FFFFFF;
+  min-height: 56px;
+  transition: all 0.4s ease-in-out;
+}
+
+.waitlist-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.waitlist-input:focus {
+  outline: none;
+  border-color: #00FFD1;
+  background: rgba(0, 255, 209, 0.05);
+}
+
+.waitlist-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.waitlist-button {
+  background: #00FFD1;
+  color: #000000;
+  border: none;
+  border-radius: 0px;
+  padding: 14px 32px;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.4s ease-in-out;
+  min-height: 56px;
+  white-space: nowrap;
+}
+
+.waitlist-button:hover:not(:disabled) {
+  background: rgba(0, 255, 209, 0.1);
+  color: #00FFD1;
+  transform: translateY(-2px);
+}
+
+.waitlist-button:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.waitlist-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.waitlist-features {
+  display: flex;
+  gap: 60px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.feature-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.feature-icon {
+  font-size: 32px;
+  filter: grayscale(100%);
+  opacity: 0.8;
+}
+
+.feature-text {
+  font-size: 16px;
+  font-weight: 400;
+  color: #4D4D4D;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .waitlist-title {
+    font-size: 48px;
+  }
+
+  .waitlist-description {
+    font-size: 18px;
+    margin-bottom: 40px;
+  }
+
+  .form-group {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .waitlist-features {
+    gap: 40px;
+  }
+
+  .logo-text {
+    font-size: 16px;
+  }
+
+  .waitlist-logo {
+    margin-bottom: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .waitlist-title {
+    font-size: 36px;
+  }
+
+  .waitlist-description {
+    font-size: 16px;
+  }
+
+  .waitlist-input,
+  .waitlist-button {
+    font-size: 16px;
+    padding: 12px 20px;
+    min-height: 48px;
+  }
+}
