@@ -23,10 +23,10 @@
   font-weight: 900;
   line-height: 1;
   letter-spacing: -3px;
-  color: #F1B7EA;
+  color: #FFFFFF;
   margin-bottom: 32px;
   text-transform: uppercase;
-  text-shadow: 0 0 60px rgba(241, 183, 234, 0.5), 0 0 30px rgba(241, 183, 234, 0.3);
+  text-shadow: 0 0 60px rgba(0, 255, 0, 0.3), 0 0 30px rgba(0, 255, 0, 0.2);
   font-family: system-ui, -apple-system, sans-serif;
 }
 
@@ -35,7 +35,7 @@
   font-weight: 400;
   line-height: 1.7;
   letter-spacing: 0.5px;
-  color: #A486B0;
+  color: rgba(255, 255, 255, 0.7);
   margin-bottom: 64px;
   max-width: 540px;
   margin-left: auto;
@@ -178,7 +178,7 @@
 .feature-text {
   font-size: 16px;
   font-weight: 600;
-  color: #694786;
+  color: rgba(255, 255, 255, 0.5);
   margin: 0;
   letter-spacing: 0.8px;
   text-transform: uppercase;
@@ -186,7 +186,7 @@
 }
 
 .feature-item:hover .feature-text {
-  color: #A486B0;
+  color: #00FF00;
 }
 
 @media (max-width: 768px) {
