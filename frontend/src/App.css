@@ -285,7 +285,6 @@
     0 0 150px 50px rgba(105, 71, 134, 0.3),
     0 0 250px 80px rgba(241, 183, 234, 0.15),
     inset 0 0 120px 30px rgba(93, 71, 154, 0.2);
-  animation: atmosphereGlow 4s ease-in-out infinite;
 }
 
 /* Subtle gradient ring */
@@ -305,23 +304,6 @@
     transparent 50%
   );
   pointer-events: none;
-}
-
-@keyframes atmosphereGlow {
-  0%, 100% {
-    box-shadow: 
-      0 0 80px 25px rgba(93, 71, 154, 0.5),
-      0 0 150px 50px rgba(105, 71, 134, 0.3),
-      0 0 250px 80px rgba(241, 183, 234, 0.15),
-      inset 0 0 120px 30px rgba(93, 71, 154, 0.2);
-  }
-  50% {
-    box-shadow: 
-      0 0 100px 35px rgba(93, 71, 154, 0.6),
-      0 0 180px 60px rgba(105, 71, 134, 0.4),
-      0 0 300px 100px rgba(241, 183, 234, 0.2),
-      inset 0 0 150px 40px rgba(93, 71, 154, 0.25);
-  }
 }
 
 @media (max-width: 768px) {
