@@ -54,7 +54,7 @@ const AnimatedBackground = () => {
         this.y = Math.random() * canvas.height;
         this.radius = Math.random() * 200 + 150;
         this.opacity = Math.random() * 0.03 + 0.02;
-        this.hue = Math.random() * 30 + 260; // Purple range
+        this.hue = Math.random() * 20 + 270; // Purple range matching palette
         this.drift = {
           x: (Math.random() - 0.5) * 0.1,
           y: (Math.random() - 0.5) * 0.1
@@ -66,9 +66,9 @@ const AnimatedBackground = () => {
           this.x, this.y, 0,
           this.x, this.y, this.radius
         );
-        gradient.addColorStop(0, `hsla(${this.hue}, 80%, 60%, ${this.opacity})`);
-        gradient.addColorStop(0.5, `hsla(${this.hue}, 70%, 50%, ${this.opacity * 0.5})`);
-        gradient.addColorStop(1, `hsla(${this.hue}, 60%, 40%, 0)`);
+        gradient.addColorStop(0, `hsla(${this.hue}, 60%, 45%, ${this.opacity})`);
+        gradient.addColorStop(0.5, `hsla(${this.hue}, 50%, 35%, ${this.opacity * 0.5})`);
+        gradient.addColorStop(1, `hsla(${this.hue}, 40%, 25%, 0)`);
 
         ctx.fillStyle = gradient;
         ctx.beginPath();
@@ -99,6 +99,7 @@ const AnimatedBackground = () => {
       }
 
       draw() {
+        // Using #A486B0 from the palette
         ctx.fillStyle = `rgba(164, 134, 176, ${this.opacity})`;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
