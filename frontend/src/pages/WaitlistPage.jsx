@@ -3,7 +3,6 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { toast } from 'sonner';
 import AnimatedBackground from '../components/AnimatedBackground';
-import Footer from '../components/Footer';
 import { mockWaitlistSubmit } from '../mock/waitlistMock';
 
 const WaitlistPage = () => {
@@ -41,56 +40,52 @@ const WaitlistPage = () => {
   };
 
   return (
-    <>
-      <div className="waitlist-container">
-        <AnimatedBackground />
+    <div className="waitlist-container">
+      <AnimatedBackground />
+      
+      <div className="waitlist-content">
+        <h1 className="waitlist-title">Coming Soon</h1>
         
-        <div className="waitlist-content">
-          <h1 className="waitlist-title">Coming Soon</h1>
-          
-          <p className="waitlist-description">
-            Find the cheapest, fastest way to buy USDT & USDC with your local currency.
-          </p>
+        <p className="waitlist-description">
+          Find the cheapest, fastest way to buy USDT & USDC with your local currency.
+        </p>
 
-          <form onSubmit={handleSubmit} className="waitlist-form">
-            <div className="form-group">
-              <Input
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="waitlist-input"
-                disabled={isLoading}
-              />
-              <Button 
-                type="submit" 
-                className="waitlist-button"
-                disabled={isLoading}
-              >
-                {isLoading ? 'Joining...' : 'Join Waitlist'}
-              </Button>
-            </div>
-          </form>
+        <form onSubmit={handleSubmit} className="waitlist-form">
+          <div className="form-group">
+            <Input
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="waitlist-input"
+              disabled={isLoading}
+            />
+            <Button 
+              type="submit" 
+              className="waitlist-button"
+              disabled={isLoading}
+            >
+              {isLoading ? 'Joining...' : 'Join Waitlist'}
+            </Button>
+          </div>
+        </form>
 
-          <div className="waitlist-features">
-            <div className="feature-item">
-              <div className="feature-icon">💰</div>
-              <p className="feature-text">Compare Rates</p>
-            </div>
-            <div className="feature-item">
-              <div className="feature-icon">⚡</div>
-              <p className="feature-text">Fastest Routes</p>
-            </div>
-            <div className="feature-item">
-              <div className="feature-icon">🌍</div>
-              <p className="feature-text">Local Currency</p>
-            </div>
+        <div className="waitlist-features">
+          <div className="feature-item">
+            <div className="feature-icon">💰</div>
+            <p className="feature-text">Compare Rates</p>
+          </div>
+          <div className="feature-item">
+            <div className="feature-icon">⚡</div>
+            <p className="feature-text">Fastest Routes</p>
+          </div>
+          <div className="feature-item">
+            <div className="feature-icon">🌍</div>
+            <p className="feature-text">Local Currency</p>
           </div>
         </div>
       </div>
-      
-      <Footer />
-    </>
+    </div>
   );
 };
 

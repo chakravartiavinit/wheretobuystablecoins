@@ -241,6 +241,143 @@
 }
 
 
+/* 3D Globe Styles */
+.globe-container {
+  position: fixed;
+  bottom: -20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 1800px;
+  height: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.globe {
+  position: relative;
+  width: 900px;
+  height: 900px;
+  perspective: 1200px;
+}
+
+.globe-sphere {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: 
+    radial-gradient(circle at 30% 30%, 
+      rgba(72, 130, 130, 0.4) 0%,
+      rgba(45, 85, 100, 0.35) 25%,
+      rgba(30, 60, 80, 0.3) 50%,
+      rgba(20, 40, 60, 0.25) 75%,
+      rgba(10, 20, 40, 0.15) 100%
+    );
+  box-shadow: 
+    inset -40px -40px 80px rgba(0, 0, 0, 0.6),
+    inset 20px 20px 60px rgba(100, 150, 150, 0.15),
+    0 0 100px rgba(72, 130, 130, 0.2);
+  animation: rotateGlobe 60s linear infinite;
+  overflow: hidden;
+}
+
+.globe-sphere::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: 
+    radial-gradient(circle at 35% 35%,
+      rgba(255, 255, 255, 0.15) 0%,
+      transparent 50%
+    );
+}
+
+.globe-sphere::after {
+  content: '';
+  position: absolute;
+  top: 10%;
+  left: -50%;
+  width: 200%;
+  height: 80%;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 30px,
+    rgba(45, 85, 100, 0.15) 30px,
+    rgba(45, 85, 100, 0.15) 35px
+  );
+  border-radius: 50%;
+  animation: rotateGlobeLines 60s linear infinite;
+  opacity: 0.6;
+}
+
+.globe-shadow {
+  position: absolute;
+  bottom: -10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 20%;
+  background: radial-gradient(ellipse at center,
+    rgba(0, 0, 0, 0.5) 0%,
+    transparent 70%
+  );
+  filter: blur(30px);
+}
+
+@keyframes rotateGlobe {
+  from {
+    transform: rotateY(0deg) rotateZ(-23.5deg);
+  }
+  to {
+    transform: rotateY(360deg) rotateZ(-23.5deg);
+  }
+}
+
+@keyframes rotateGlobeLines {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(35px);
+  }
+}
+
+@media (max-width: 1400px) {
+  .globe {
+    width: 700px;
+    height: 700px;
+  }
+}
+
+@media (max-width: 768px) {
+  .globe-container {
+    bottom: -25%;
+    height: 70%;
+  }
+  
+  .globe {
+    width: 500px;
+    height: 500px;
+  }
+}
+
+@media (max-width: 480px) {
+  .globe {
+    width: 350px;
+    height: 350px;
+  }
+}
+
+
 /* Footer Styles */
 .footer-container {
   position: relative;

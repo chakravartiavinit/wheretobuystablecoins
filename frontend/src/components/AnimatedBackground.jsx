@@ -216,25 +216,13 @@ const AnimatedBackground = () => {
           pointerEvents: 'none',
         }}
       />
-      <div
-        style={{
-          position: 'fixed',
-          bottom: '-20%',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          width: '140%',
-          maxWidth: '2000px',
-          height: '80%',
-          backgroundImage: 'url(/globe.png)',
-          backgroundSize: 'contain',
-          backgroundPosition: 'center top',
-          backgroundRepeat: 'no-repeat',
-          opacity: 0.4,
-          zIndex: 0,
-          pointerEvents: 'none',
-          filter: 'brightness(0.9)',
-        }}
-      />
+      <div className="globe-container">
+        <div className="globe">
+          <div className="globe-sphere">
+            <div className="globe-shadow"></div>
+          </div>
+        </div>
+      </div>
     </>
   );
 };
