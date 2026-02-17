@@ -43,13 +43,13 @@
 }
 
 .waitlist-form {
-  margin-bottom: 80px;
+  margin-bottom: 50px;
 }
 
 .form-group {
   display: flex;
-  gap: 16px;
-  max-width: 560px;
+  gap: 12px;
+  max-width: 420px;
   margin: 0 auto;
   flex-direction: row;
   align-items: stretch;
@@ -59,12 +59,12 @@
   flex: 1;
   background: rgba(99, 102, 241, 0.05);
   border: 2px solid rgba(99, 102, 241, 0.3);
-  border-radius: 14px;
-  padding: 20px 26px;
-  font-size: 17px;
+  border-radius: 12px;
+  padding: 14px 20px;
+  font-size: 15px;
   font-weight: 500;
   color: #FFFFFF;
-  min-height: 62px;
+  min-height: 50px;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   backdrop-filter: blur(10px);
 }
