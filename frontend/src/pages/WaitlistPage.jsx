@@ -44,17 +44,6 @@ const WaitlistPage = () => {
       <AnimatedBackground />
       
       <div className="waitlist-content">
-        <div className="waitlist-logo">
-          <div className="logo-icon">
-            <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="30" cy="30" r="28" stroke="#00FFD1" strokeWidth="2" />
-              <path d="M30 15V30L40 35" stroke="#00FFD1" strokeWidth="2" strokeLinecap="square" />
-              <circle cx="30" cy="30" r="3" fill="#00FFD1" />
-            </svg>
-          </div>
-          <h2 className="logo-text">wheretobuystablecoins.xyz</h2>
-        </div>
-
         <h1 className="waitlist-title">Coming Soon</h1>
         
         <p className="waitlist-description">
