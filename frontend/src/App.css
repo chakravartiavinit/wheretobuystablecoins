@@ -26,7 +26,7 @@
   color: #FFFFFF;
   margin-bottom: 20px;
   text-transform: uppercase;
-  text-shadow: 0 0 60px rgba(99, 102, 241, 0.4), 0 0 30px rgba(99, 102, 241, 0.2);
+  text-shadow: 0 0 60px rgba(241, 183, 234, 0.4), 0 0 30px rgba(93, 71, 154, 0.3);
   font-family: system-ui, -apple-system, sans-serif;
 }
 
@@ -35,7 +35,7 @@
   font-weight: 400;
   line-height: 1.6;
   letter-spacing: 0.3px;
-  color: rgba(255, 255, 255, 0.6);
+  color: #A486B0;
   margin-bottom: 40px;
   max-width: 400px;
   margin-left: auto;
