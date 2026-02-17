@@ -36,22 +36,28 @@ Create a coming soon waitlist page for "wheretobuystablecoins.xyz" - a compariso
 - `/app/frontend/src/mock/waitlistMock.js` - Mock localStorage storage for demo
 
 **Styling**:
-- Dark purple theme (#1A1347 very dark blue-purple background)
-- Purple/pink color palette:
-  - Light pink: #F1B7EA (headings, accents, glows)
-  - Light purple: #A486B0 (text, borders)
-  - Medium purple: #694786 (buttons, features)
-  - Dark purple: #3C2D57 (input backgrounds)
-  - Vibrant purple: #5D479A (borders, gradients)
-- Rounded modern design (12px border-radius)
+- Pure black background (#000000)
+- Dark purple/pink UI elements:
+  - Light pink: #F1B7EA (headings with intense glow, button accents)
+  - Light purple: #A486B0 (body text, particles)
+  - Medium purple: #694786 (muted text, placeholders)
+  - Dark purple: #3C2D57 (translucent input backgrounds)
+  - Vibrant purple: #5D479A (borders, primary accents)
+- Rounded modern design (14px border-radius)
 - Responsive design for mobile/tablet/desktop
-- Unique cosmic nebula background animation:
-  - Animated gradient clouds that pulse and move
-  - Flowing sine wave patterns
-  - Particle trails with glow effects
-  - Purple to pink color shifts
-- Smooth hover states with glow effects and elevation
-- Text shadow glows for premium feel
+- Advanced cyberpunk/futuristic background animation featuring:
+  - 3D perspective grid (Tron-style floor) that moves toward viewer
+  - Floating geometric shapes (triangles, squares, hexagons) that rotate
+  - Energy lines that fall like digital rain with gradients
+  - Particle field with 3D depth effect using z-axis
+  - Glowing orbs with pulsing radial gradients
+  - Subtle scan lines for retro-futuristic feel
+  - Multiple animation layers creating depth and complexity
+- Premium interaction effects:
+  - Input focus with glowing border and backdrop blur
+  - Button hover with ripple effect and intense glow
+  - Smooth cubic-bezier transitions
+  - Text shadows with pink glow effect
 
 **Features**:
 - Email input with validation
@@ -142,14 +148,20 @@ Currently using `/app/frontend/src/mock/waitlistMock.js` which stores emails in 
 5. **Email duplicate handling** at database level
 
 ## Design Theme
-Custom purple/dark color palette:
-- Very dark blue-purple: #1A1347 (main background)
-- Dark purple: #3C2D57 (cards, inputs)
-- Medium purple: #694786 (buttons, muted elements)
-- Vibrant purple: #5D479A (borders, accents)
-- Light purple: #A486B0 (secondary text)
-- Light pink: #F1B7EA (primary text, highlights, glows)
-- Rounded corners (12px) for modern, friendly feel
-- High contrast for readability
-- Cosmic, premium aesthetic with glow effects
-- Unique animated nebula background with flowing gradients and particles
+Cyberpunk/futuristic dark theme with purple accents:
+- Pure black: #000000 (main background)
+- Dark purple: #3C2D57 (translucent overlays, inputs)
+- Medium purple: #694786 (secondary text, muted elements)
+- Vibrant purple: #5D479A (borders, primary UI)
+- Light purple: #A486B0 (body text, particles)
+- Light pink: #F1B7EA (headings, highlights, intense glows)
+- Rounded corners (14px) for premium, modern feel
+- High contrast for excellent readability on black
+- Cyberpunk aesthetic with multiple glow effects
+- Advanced multi-layer background animation:
+  - 3D perspective grid moving toward viewer
+  - Floating rotating geometric shapes
+  - Digital rain energy lines
+  - 3D particle field with depth
+  - Pulsing glowing orbs
+  - Scan line overlay
