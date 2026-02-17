@@ -189,52 +189,52 @@
 
 @media (max-width: 768px) {
   .waitlist-title {
-    font-size: 52px;
-    letter-spacing: -2px;
+    font-size: 36px;
+    letter-spacing: -1px;
   }
 
   .waitlist-description {
-    font-size: 18px;
-    margin-bottom: 48px;
+    font-size: 14px;
+    margin-bottom: 32px;
   }
 
   .form-group {
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
   }
 
   .waitlist-features {
-    gap: 48px;
+    gap: 32px;
   }
 }
 
 @media (max-width: 480px) {
   .waitlist-title {
-    font-size: 40px;
-    letter-spacing: -1px;
+    font-size: 28px;
+    letter-spacing: -0.5px;
   }
 
   .waitlist-description {
-    font-size: 17px;
+    font-size: 13px;
   }
 
   .waitlist-input,
   .waitlist-button {
-    font-size: 16px;
-    padding: 18px 22px;
-    min-height: 56px;
+    font-size: 14px;
+    padding: 12px 18px;
+    min-height: 46px;
   }
   
   .waitlist-features {
-    gap: 40px;
+    gap: 28px;
   }
   
   .feature-text {
-    font-size: 14px;
+    font-size: 11px;
   }
   
   .feature-icon {
-    font-size: 32px;
+    font-size: 24px;
   }
 }
 
