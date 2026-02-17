@@ -239,3 +239,151 @@
     font-size: 32px;
   }
 }
+
+
+/* Footer Styles */
+.footer-container {
+  position: relative;
+  width: 100%;
+  background: #000000;
+  padding: 80px 7.6923% 60px;
+  margin-top: 120px;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.footer-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.footer-social {
+  display: flex;
+  gap: 20px;
+}
+
+.footer-social-link {
+  color: #A486B0;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: rgba(164, 134, 176, 0.05);
+}
+
+.footer-social-link:hover {
+  color: #F1B7EA;
+  background: rgba(241, 183, 234, 0.1);
+  transform: translateY(-2px);
+}
+
+.footer-links {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+}
+
+.footer-link {
+  color: #A486B0;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  letter-spacing: 0.3px;
+}
+
+.footer-link:hover {
+  color: #F1B7EA;
+}
+
+.footer-divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(164, 134, 176, 0.2);
+  margin-bottom: 40px;
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-text {
+  color: #694786;
+  font-size: 14px;
+  font-weight: 400;
+  margin: 0;
+  letter-spacing: 0.3px;
+}
+
+.footer-watermark {
+  position: absolute;
+  bottom: -5%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: clamp(80px, 12vw, 200px);
+  font-weight: 900;
+  color: rgba(60, 45, 87, 0.15);
+  letter-spacing: -0.05em;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 1;
+  user-select: none;
+  line-height: 1;
+}
+
+@media (max-width: 768px) {
+  .footer-container {
+    padding: 60px 20px 40px;
+    margin-top: 80px;
+  }
+
+  .footer-top {
+    flex-direction: column;
+    gap: 30px;
+    align-items: flex-start;
+  }
+
+  .footer-links {
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .footer-link {
+    font-size: 15px;
+  }
+
+  .footer-watermark {
+    font-size: clamp(40px, 15vw, 80px);
+    bottom: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-watermark {
+    font-size: clamp(24px, 12vw, 50px);
+    letter-spacing: -0.02em;
+  }
+
+  .footer-social {
+    gap: 16px;
+  }
+
+  .footer-social-link {
+    width: 36px;
+    height: 36px;
+  }
+}
