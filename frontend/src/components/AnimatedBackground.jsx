@@ -115,7 +115,6 @@ const AnimatedBackground = () => {
     }
 
     const stars = Array.from({ length: 200 }, () => new Star());
-    const shootingStars = Array.from({ length: 3 }, () => new ShootingStar());
     const nebulaClouds = Array.from({ length: 5 }, () => new NebulaCloud());
     const spaceDust = Array.from({ length: 50 }, () => new SpaceDust());
 
@@ -139,12 +138,6 @@ const AnimatedBackground = () => {
       spaceDust.forEach(dust => {
         dust.update();
         dust.draw();
-      });
-
-      // Draw shooting stars
-      shootingStars.forEach(star => {
-        star.update();
-        star.draw();
       });
 
       time++;
