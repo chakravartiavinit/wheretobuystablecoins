@@ -36,12 +36,17 @@ Create a coming soon waitlist page for "wheretobuystablecoins.xyz" - a compariso
 - `/app/frontend/src/mock/waitlistMock.js` - Mock localStorage storage for demo
 
 **Styling**:
-- Dark theme (#000000 background)
-- Cyan-green brand color (#00FFD1)
-- Sharp corners (0px border-radius) following green-dark-theme guidelines
+- Dark teal background (#032820)
+- Green/yellow color palette:
+  - Primary: #80A416 (lime green)
+  - Secondary: #C5C764 (yellow-green)
+  - Accent: #08652C (forest green)
+  - Text muted: #5E7343 (olive green)
+  - Gold: #AD9F3C
+- Rounded buttons (8px border-radius)
 - Responsive design for mobile/tablet/desktop
-- Animated particle background with connecting lines
-- Hover states with subtle transitions
+- Animated particle background with lime green particles
+- Smooth hover states with elevation effects
 
 **Features**:
 - Email input with validation
@@ -50,6 +55,8 @@ Create a coming soon waitlist page for "wheretobuystablecoins.xyz" - a compariso
 - Three feature indicators (Compare Rates, Fastest Routes, Local Currency)
 - Custom favicon integration
 - Fully responsive layout
+- Compact, centered design
+- Logo section removed for cleaner look
 
 ## Prioritized Backlog
 
@@ -130,11 +137,13 @@ Currently using `/app/frontend/src/mock/waitlistMock.js` which stores emails in 
 5. **Email duplicate handling** at database level
 
 ## Design Theme
-Using `green-dark-theme` guidelines:
-- Pure black backgrounds (#000000)
-- Brand accent: #00FFD1 (cyan-green)
-- Sharp corners (0px border-radius)
-- High contrast white text
-- Subtle borders and overlays
-- No gradients (following 90/10 rule)
-- Clean, minimal, modern aesthetic
+Custom color palette from user:
+- Dark teal background: #032820
+- Lime green: #80A416 (primary buttons, particles)
+- Yellow-green: #C5C764 (headings, hover states)
+- Forest green: #08652C (input backgrounds)
+- Muted green: #5E7343 (borders, subtle text)
+- Gold/olive: #AD9F3C (accents)
+- Rounded corners (8px) for modern feel
+- High contrast for readability
+- Organic, nature-inspired aesthetic
