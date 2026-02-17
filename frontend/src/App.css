@@ -242,24 +242,24 @@
 /* Arc/Globe Styles - Centered Arc Background */
 .globe-container {
   position: fixed;
-  top: 55%;
+  top: 60%;
   left: 50%;
   transform: translate(-50%, 0);
-  width: 200vw;
-  height: 200vw;
+  width: 100%;
+  height: auto;
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  z-index: 0;
+  z-index: 1;
   pointer-events: none;
 }
 
 .globe {
   position: relative;
-  width: 180vw;
-  height: 180vw;
-  min-width: 1800px;
-  min-height: 1800px;
+  width: 150vw;
+  height: 150vw;
+  min-width: 1500px;
+  min-height: 1500px;
 }
 
 .globe-sphere {
