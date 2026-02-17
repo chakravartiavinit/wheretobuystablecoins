@@ -218,9 +218,7 @@ const AnimatedBackground = () => {
       />
       <div className="globe-container">
         <div className="globe">
-          <div className="globe-sphere">
-            <div className="globe-shadow"></div>
-          </div>
+          <div className="globe-sphere"></div>
         </div>
       </div>
     </>
