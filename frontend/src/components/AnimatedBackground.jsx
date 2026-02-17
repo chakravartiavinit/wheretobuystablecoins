@@ -19,11 +19,11 @@ const AnimatedBackground = () => {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    // Stars
+    // Stars - only in top section (above arc)
     class Star {
       constructor() {
         this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
+        this.y = Math.random() * canvas.height * 0.45; // Only top 45% of screen
         this.size = Math.random() * 2.5;
         this.opacity = Math.random();
         this.twinkleSpeed = Math.random() * 0.05 + 0.01;
@@ -47,17 +47,17 @@ const AnimatedBackground = () => {
     // Shooting stars - REMOVED
     // class ShootingStar removed
 
-    // Nebula clouds
+    // Nebula clouds - only in top section
     class NebulaCloud {
       constructor() {
         this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
+        this.y = Math.random() * canvas.height * 0.4; // Only top 40%
         this.radius = Math.random() * 200 + 150;
         this.opacity = Math.random() * 0.03 + 0.02;
         this.hue = Math.random() * 20 + 270; // Purple range matching palette
         this.drift = {
           x: (Math.random() - 0.5) * 0.1,
-          y: (Math.random() - 0.5) * 0.1
+          y: (Math.random() - 0.5) * 0.05
         };
       }
 
@@ -80,21 +80,22 @@ const AnimatedBackground = () => {
         this.x += this.drift.x;
         this.y += this.drift.y;
 
+        // Keep nebula in top section
         if (this.x < -this.radius) this.x = canvas.width + this.radius;
         if (this.x > canvas.width + this.radius) this.x = -this.radius;
-        if (this.y < -this.radius) this.y = canvas.height + this.radius;
-        if (this.y > canvas.height + this.radius) this.y = -this.radius;
+        if (this.y < -this.radius) this.y = 0;
+        if (this.y > canvas.height * 0.4) this.y = 0;
       }
     }
 
-    // Floating particles (space dust)
+    // Floating particles (space dust) - only in top section
     class SpaceDust {
       constructor() {
         this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
+        this.y = Math.random() * canvas.height * 0.45; // Only top 45%
         this.size = Math.random() * 1.5 + 0.5;
         this.speedX = (Math.random() - 0.5) * 0.3;
-        this.speedY = (Math.random() - 0.5) * 0.3;
+        this.speedY = (Math.random() - 0.5) * 0.2;
         this.opacity = Math.random() * 0.4 + 0.2;
       }
 
@@ -111,7 +112,7 @@ const AnimatedBackground = () => {
         this.y += this.speedY;
 
         if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+        if (this.y < 0 || this.y > canvas.height * 0.45) this.speedY *= -1;
       }
     }
 
