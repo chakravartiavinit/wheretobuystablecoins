@@ -239,17 +239,16 @@
 }
 
 
-/* 3D Globe Styles - Type1 Ventures Style */
+/* Arc/Globe Styles - Centered Arc Background */
 .globe-container {
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  width: 180%;
-  max-width: 3500px;
-  height: 180%;
+  transform: translate(-50%, 0);
+  width: 200vw;
+  height: 200vw;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   z-index: 0;
   pointer-events: none;
@@ -257,8 +256,10 @@
 
 .globe {
   position: relative;
-  width: 2800px;
-  height: 2800px;
+  width: 200vw;
+  height: 200vw;
+  min-width: 2000px;
+  min-height: 2000px;
 }
 
 .globe-sphere {
@@ -267,16 +268,16 @@
   height: 100%;
   border-radius: 50%;
   background: radial-gradient(circle at 50% 50%,
-    #0a1628 0%,
-    #050b14 60%,
-    #000000 100%
+    #0a0a12 0%,
+    #050508 40%,
+    #000000 70%
   );
   box-shadow: 
-    inset 0 0 200px rgba(0, 0, 0, 0.8),
-    0 0 150px rgba(0, 0, 0, 0.5);
+    inset 0 0 300px rgba(0, 0, 0, 0.9);
   overflow: visible;
 }
 
+/* Glowing arc border */
 .globe-sphere::before {
   content: '';
   position: absolute;
@@ -285,28 +286,30 @@
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  border: 3px solid transparent;
+  border: 2px solid rgba(124, 58, 237, 0.3);
   box-shadow: 
-    0 0 40px 8px rgba(124, 58, 237, 0.5),
-    0 0 80px 15px rgba(99, 102, 241, 0.3),
-    inset 0 0 60px 10px rgba(139, 92, 246, 0.25);
+    0 0 60px 15px rgba(124, 58, 237, 0.4),
+    0 0 120px 30px rgba(99, 102, 241, 0.2),
+    0 0 200px 50px rgba(139, 92, 246, 0.1),
+    inset 0 0 100px 20px rgba(124, 58, 237, 0.15);
   animation: atmosphereGlow 4s ease-in-out infinite;
 }
 
+/* Subtle gradient ring */
 .globe-sphere::after {
   content: '';
   position: absolute;
-  top: -5%;
-  left: -5%;
-  width: 110%;
-  height: 110%;
+  top: -2%;
+  left: -2%;
+  width: 104%;
+  height: 104%;
   border-radius: 50%;
   background: radial-gradient(circle at 50% 50%,
-    transparent 45%,
-    rgba(124, 58, 237, 0.15) 48%,
-    rgba(99, 102, 241, 0.25) 49%,
-    rgba(139, 92, 246, 0.15) 50%,
-    transparent 52%
+    transparent 46%,
+    rgba(124, 58, 237, 0.08) 47%,
+    rgba(99, 102, 241, 0.15) 48%,
+    rgba(139, 92, 246, 0.08) 49%,
+    transparent 50%
   );
   pointer-events: none;
 }
@@ -314,40 +317,45 @@
 @keyframes atmosphereGlow {
   0%, 100% {
     box-shadow: 
-      0 0 40px 8px rgba(124, 58, 237, 0.5),
-      0 0 80px 15px rgba(99, 102, 241, 0.3),
-      inset 0 0 60px 10px rgba(139, 92, 246, 0.25);
+      0 0 60px 15px rgba(124, 58, 237, 0.4),
+      0 0 120px 30px rgba(99, 102, 241, 0.2),
+      0 0 200px 50px rgba(139, 92, 246, 0.1),
+      inset 0 0 100px 20px rgba(124, 58, 237, 0.15);
   }
   50% {
     box-shadow: 
-      0 0 50px 12px rgba(124, 58, 237, 0.6),
-      0 0 100px 20px rgba(99, 102, 241, 0.4),
-      inset 0 0 70px 15px rgba(139, 92, 246, 0.35);
+      0 0 80px 20px rgba(124, 58, 237, 0.5),
+      0 0 150px 40px rgba(99, 102, 241, 0.25),
+      0 0 250px 60px rgba(139, 92, 246, 0.15),
+      inset 0 0 120px 25px rgba(124, 58, 237, 0.2);
   }
 }
 
 @media (max-width: 1400px) {
   .globe {
-    width: 2200px;
-    height: 2200px;
+    min-width: 1600px;
+    min-height: 1600px;
   }
 }
 
 @media (max-width: 768px) {
   .globe-container {
-    width: 200%;
+    width: 250vw;
+    height: 250vw;
   }
   
   .globe {
-    width: 1800px;
-    height: 1800px;
+    width: 250vw;
+    height: 250vw;
+    min-width: 1200px;
+    min-height: 1200px;
   }
 }
 
 @media (max-width: 480px) {
   .globe {
-    width: 1400px;
-    height: 1400px;
+    min-width: 1000px;
+    min-height: 1000px;
   }
 }
 
