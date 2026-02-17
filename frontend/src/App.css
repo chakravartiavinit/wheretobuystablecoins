@@ -266,11 +266,7 @@
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background: radial-gradient(circle at 50% 30%,
-    rgba(10, 10, 18, 0.3) 0%,
-    rgba(5, 5, 8, 0.5) 40%,
-    transparent 70%
-  );
+  background: transparent;
   overflow: visible;
 }
 
@@ -328,31 +324,17 @@
   }
 }
 
-@media (max-width: 1400px) {
-  .globe {
-    min-width: 1600px;
-    min-height: 1600px;
-  }
-}
-
 @media (max-width: 768px) {
   .globe-container {
-    width: 250vw;
-    height: 250vw;
-  }
-  
-  .globe {
-    width: 250vw;
-    height: 250vw;
-    min-width: 1200px;
-    min-height: 1200px;
+    width: 400vw;
+    height: 400vw;
   }
 }
 
 @media (max-width: 480px) {
-  .globe {
-    min-width: 1000px;
-    min-height: 1000px;
+  .globe-container {
+    width: 500vw;
+    height: 500vw;
   }
 }
 
