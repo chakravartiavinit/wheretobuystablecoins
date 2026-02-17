@@ -44,50 +44,8 @@ const AnimatedBackground = () => {
       }
     }
 
-    // Shooting stars
-    class ShootingStar {
-      constructor() {
-        this.reset();
-      }
-
-      reset() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height * 0.5;
-        this.length = Math.random() * 80 + 40;
-        this.speed = Math.random() * 8 + 4;
-        this.opacity = 1;
-        this.angle = Math.PI / 4;
-      }
-
-      draw() {
-        ctx.save();
-        ctx.translate(this.x, this.y);
-        ctx.rotate(this.angle);
-
-        const gradient = ctx.createLinearGradient(0, 0, -this.length, 0);
-        gradient.addColorStop(0, `rgba(241, 183, 234, ${this.opacity})`);
-        gradient.addColorStop(1, `rgba(241, 183, 234, 0)`);
-
-        ctx.strokeStyle = gradient;
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.moveTo(0, 0);
-        ctx.lineTo(-this.length, 0);
-        ctx.stroke();
-
-        ctx.restore();
-      }
-
-      update() {
-        this.x += Math.cos(this.angle) * this.speed;
-        this.y += Math.sin(this.angle) * this.speed;
-        this.opacity -= 0.01;
-
-        if (this.opacity <= 0 || this.x > canvas.width || this.y > canvas.height) {
-          this.reset();
-        }
-      }
-    }
+    // Shooting stars - REMOVED
+    // class ShootingStar removed
 
     // Nebula clouds
     class NebulaCloud {
