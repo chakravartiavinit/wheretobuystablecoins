@@ -162,9 +162,8 @@ const AnimatedBackground = () => {
     const spaceDust = Array.from({ length: 50 }, () => new SpaceDust());
 
     const animate = () => {
-      // Deep space background
-      ctx.fillStyle = '#000000';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      // Clear canvas with transparent background
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       // Draw nebula clouds
       nebulaClouds.forEach(cloud => {
