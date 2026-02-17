@@ -57,28 +57,28 @@
 
 .waitlist-input {
   flex: 1;
-  background: rgba(60, 45, 87, 0.3);
-  border: 2px solid #5D479A;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(0, 255, 0, 0.3);
   border-radius: 14px;
   padding: 20px 26px;
   font-size: 17px;
   font-weight: 500;
-  color: #F1B7EA;
+  color: #FFFFFF;
   min-height: 62px;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   backdrop-filter: blur(10px);
 }
 
 .waitlist-input::placeholder {
-  color: #694786;
+  color: rgba(255, 255, 255, 0.4);
   opacity: 0.8;
 }
 
 .waitlist-input:focus {
   outline: none;
-  border-color: #F1B7EA;
-  background: rgba(60, 45, 87, 0.5);
-  box-shadow: 0 0 0 4px rgba(241, 183, 234, 0.1), 0 0 40px rgba(241, 183, 234, 0.2);
+  border-color: #00FF00;
+  background: rgba(0, 255, 0, 0.05);
+  box-shadow: 0 0 0 4px rgba(0, 255, 0, 0.1), 0 0 40px rgba(0, 255, 0, 0.2);
   transform: translateY(-2px);
 }
 
@@ -88,10 +88,10 @@
 }
 
 .waitlist-button {
-  background: linear-gradient(135deg, #5D479A 0%, #694786 50%, #5D479A 100%);
+  background: #00FF00;
   background-size: 200% 100%;
-  color: #F1B7EA;
-  border: 2px solid #A486B0;
+  color: #000000;
+  border: none;
   border-radius: 14px;
   padding: 20px 42px;
   font-size: 17px;
@@ -102,7 +102,7 @@
   white-space: nowrap;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  box-shadow: 0 8px 32px rgba(93, 71, 154, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 255, 0, 0.3);
   position: relative;
   overflow: hidden;
 }
@@ -115,7 +115,7 @@
   width: 0;
   height: 0;
   border-radius: 50%;
-  background: rgba(241, 183, 234, 0.3);
+  background: rgba(255, 255, 255, 0.3);
   transform: translate(-50%, -50%);
   transition: width 0.6s, height 0.6s;
 }
@@ -126,16 +126,14 @@
 }
 
 .waitlist-button:hover:not(:disabled) {
-  background-position: 100% 0;
-  border-color: #F1B7EA;
+  background: #00DD00;
   transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 12px 48px rgba(241, 183, 234, 0.4), 0 0 60px rgba(241, 183, 234, 0.3);
-  text-shadow: 0 0 20px rgba(241, 183, 234, 0.8);
+  box-shadow: 0 12px 48px rgba(0, 255, 0, 0.5), 0 0 60px rgba(0, 255, 0, 0.3);
 }
 
 .waitlist-button:active:not(:disabled) {
   transform: translateY(-1px) scale(1);
-  box-shadow: 0 6px 24px rgba(241, 183, 234, 0.3);
+  box-shadow: 0 6px 24px rgba(0, 255, 0, 0.3);
 }
 
 .waitlist-button:disabled {
