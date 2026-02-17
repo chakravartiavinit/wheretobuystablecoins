@@ -62,7 +62,7 @@
   border-radius: 12px;
   padding: 14px 20px;
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 600;
   color: #FFFFFF;
   min-height: 50px;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -71,7 +71,8 @@
 
 .waitlist-input::placeholder {
   color: #A486B0;
-  opacity: 0.6;
+  opacity: 0.8;
+  font-weight: 600;
 }
 
 .waitlist-input:focus {
