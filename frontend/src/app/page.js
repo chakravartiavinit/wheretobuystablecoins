@@ -56,12 +56,14 @@ export default function Home() {
       <AnimatedBackground />
 
       <section className="waitlist-content" aria-labelledby="waitlist-heading">
-        <div className="status-badge">
-          <span className="status-badge-text">Under Progress</span>
+        <div className="launching-soon">
+          <span className="launching-soon-line" />
+          <span className="launching-soon-text">Launching Soon</span>
+          <span className="launching-soon-line" />
         </div>
 
         <h1 id="waitlist-heading" className="waitlist-title">
-          COMING SOON
+          WHERE TO BUY STABLECOIN?
         </h1>
 
         <p className="waitlist-description">
@@ -89,6 +91,7 @@ export default function Home() {
               {isLoading ? 'Adding to Waitlist' : 'Get Notified'}
             </Button>
           </div>
+          <p className="form-hint">No spam. One email when we launch.</p>
         </form>
 
         <div className="waitlist-features" role="list" aria-label="Key features">

@@ -122,7 +122,7 @@ export default function RootLayout({ children }) {
           }}
         />
       </head>
-      <body className={`${inter.variable} antialiased`}>
+      <body className={`${inter.variable} antialiased`} suppressHydrationWarning>
         {children}
       </body>
     </html>
