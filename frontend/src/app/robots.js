@@ -1,5 +1,5 @@
 export default function robots() {
-    const siteUrl = "https://wheretobuystablecoins.com";
+    const siteUrl = "https://www.wheretobuystablecoin.xyz";
 
     return {
         rules: [

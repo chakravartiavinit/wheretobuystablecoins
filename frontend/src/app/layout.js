@@ -6,7 +6,7 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-const siteUrl = "https://wheretobuystablecoins.com";
+const siteUrl = "https://www.wheretobuystablecoin.xyz";
 
 export const metadata = {
   metadataBase: new URL(siteUrl),
