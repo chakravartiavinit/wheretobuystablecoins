@@ -52,21 +52,24 @@ export default function Home() {
   };
 
   return (
-    <div className="waitlist-container">
+    <main className="waitlist-container" role="main">
       <AnimatedBackground />
 
-      <div className="waitlist-content">
+      <section className="waitlist-content" aria-labelledby="waitlist-heading">
         <div className="status-badge">
           <span className="status-badge-text">Under Progress</span>
         </div>
 
-        <h1 className="waitlist-title">Coming Soon</h1>
+        <h1 id="waitlist-heading" className="waitlist-title">
+          Where to Buy Stablecoins
+        </h1>
 
         <p className="waitlist-description">
           Find the cheapest, fastest way to buy stablecoins with your local currency.
+          Compare rates across exchanges — coming soon.
         </p>
 
-        <form onSubmit={handleSubmit} className="waitlist-form">
+        <form onSubmit={handleSubmit} className="waitlist-form" aria-label="Join the waitlist">
           <div className="form-group">
             <Input
               type="email"
@@ -75,33 +78,37 @@ export default function Home() {
               onChange={(e) => setEmail(e.target.value)}
               className="waitlist-input !w-auto" /* Force auto width so flex: 1 takes over */
               disabled={isLoading}
+              aria-label="Email address"
+              autoComplete="email"
             />
             <Button
               type="submit"
               className="waitlist-button"
               disabled={isLoading}
+              aria-label="Join waitlist"
             >
               {isLoading ? 'Adding to Waitlist' : 'Get Notified'}
             </Button>
           </div>
         </form>
 
-        <div className="waitlist-features">
-          <div className="feature-item">
-            <div className="feature-icon">💰</div>
+        <div className="waitlist-features" role="list" aria-label="Key features">
+          <div className="feature-item" role="listitem">
+            <div className="feature-icon" aria-hidden="true">💰</div>
             <p className="feature-text">Compare Rates</p>
           </div>
-          <div className="feature-item">
-            <div className="feature-icon">⚡</div>
+          <div className="feature-item" role="listitem">
+            <div className="feature-icon" aria-hidden="true">⚡</div>
             <p className="feature-text">Fastest Routes</p>
           </div>
-          <div className="feature-item">
-            <div className="feature-icon">🌍</div>
+          <div className="feature-item" role="listitem">
+            <div className="feature-icon" aria-hidden="true">🌍</div>
             <p className="feature-text">Local Currency</p>
           </div>
         </div>
-      </div>
+      </section>
       <Toaster position="top-center" />
-    </div>
+    </main>
   );
 }
+
