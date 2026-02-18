@@ -1,11 +1,9 @@
 export default function sitemap() {
-    const siteUrl = "https://www.wheretobuystablecoin.xyz";
-
     return [
         {
-            url: `${siteUrl}/`,
-            lastModified: new Date().toISOString().split('T')[0],
-            changeFrequency: "weekly",
+            url: 'https://www.wheretobuystablecoin.xyz',
+            lastModified: new Date(),
+            changeFrequency: 'monthly',
             priority: 1,
         },
     ];
