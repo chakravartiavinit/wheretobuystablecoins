@@ -91,7 +91,7 @@ export default function Home() {
               {isLoading ? 'Adding to Waitlist' : 'Get Notified'}
             </Button>
           </div>
-          <p className="form-hint">No spam. One email when we launch.</p>
+          <p className="form-hint">No spam. One email when we launch</p>
         </form>
 
         <div className="banner" role="list" aria-label="Key features">
