@@ -67,7 +67,7 @@ export default function Home() {
         </h1>
 
         <p className="waitlist-description">
-          Find the cheapest, fastest way to buy stablecoins with your local currency.
+          Find the cheapest, fastest way to buy stablecoins with your local currency
         </p>
 
         <form onSubmit={handleSubmit} className="waitlist-form" aria-label="Join the waitlist">
@@ -94,18 +94,30 @@ export default function Home() {
           <p className="form-hint">No spam. One email when we launch.</p>
         </form>
 
-        <div className="waitlist-features" role="list" aria-label="Key features">
-          <div className="feature-item" role="listitem">
-            <div className="feature-icon" aria-hidden="true">💰</div>
-            <p className="feature-text">Compare Rates</p>
+        <div className="banner" role="list" aria-label="Key features">
+          {/* Compare Rates */}
+          <div className="feature money" role="listitem">
+            <div className="emoji-wrap">
+              <span className="emoji">💰</span>
+            </div>
+            <div className="label">Compare Rates</div>
           </div>
-          <div className="feature-item" role="listitem">
-            <div className="feature-icon" aria-hidden="true">⚡</div>
-            <p className="feature-text">Fastest Routes</p>
+
+          {/* Fastest Routes */}
+          <div className="feature bolt" role="listitem">
+            <div className="emoji-wrap">
+              <div className="lines"></div>
+              <span className="emoji">⚡</span>
+            </div>
+            <div className="label">Instant Settlement</div>
           </div>
-          <div className="feature-item" role="listitem">
-            <div className="feature-icon" aria-hidden="true">🌍</div>
-            <p className="feature-text">Local Currency</p>
+
+          {/* Local Currency */}
+          <div className="feature globe" role="listitem">
+            <div className="emoji-wrap">
+              <span className="globe-center">🌍</span>
+            </div>
+            <div className="label">Local Currency</div>
           </div>
         </div>
       </section>

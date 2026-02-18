@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@800&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -186,7 +187,7 @@
 }
 
 .waitlist-form {
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 }
 
 .form-hint {
@@ -247,32 +248,121 @@
   transform: scale(1.02);
 }
 
-.waitlist-features {
+.banner {
   display: flex;
   gap: 40px;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+  width: 100%;
+  margin: 0 auto;
 }
 
-.feature-item {
+.feature {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  position: relative;
+  cursor: default;
+  transition: transform 0.3s ease;
+  animation: fadeup 0.6s ease backwards;
+}
+.feature:nth-child(1) { animation-delay: 0.1s; }
+.feature:nth-child(2) { animation-delay: 0.25s; }
+.feature:nth-child(3) { animation-delay: 0.4s; }
+
+.feature:hover { transform: translateY(-2px); }
+
+@keyframes fadeup {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-.feature-icon {
+/* Shared emoji wrap - smaller to match original 28px icon feel */
+.emoji-wrap {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.emoji {
   font-size: 28px;
+  display: block;
+  line-height: 1;
+  filter: drop-shadow(0 0 12px rgba(255,200,80,0));
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+.feature:hover .emoji {
+  filter: drop-shadow(0 0 15px rgba(255,200,80,0.4));
 }
 
-.feature-text {
+/* Money bounce */
+.money .emoji { animation: money-bounce 2.5s ease-in-out infinite; }
+@keyframes money-bounce {
+  0%, 100% { transform: translateY(0) rotate(-5deg); }
+  30%       { transform: translateY(-4px) rotate(5deg); }
+  60%       { transform: translateY(-2px) rotate(-2deg); }
+}
+
+/* Bolt flicker */
+.bolt .emoji { animation: bolt-flicker 1.8s ease-in-out infinite; }
+@keyframes bolt-flicker {
+  0%, 90%, 100% { opacity: 1; transform: scaleY(1); }
+  92%           { opacity: 0.3; transform: scaleY(0.95); }
+  94%           { opacity: 1; transform: scaleY(1.05); }
+  96%           { opacity: 0.5; transform: scaleY(0.98); }
+}
+.bolt .lines { position: absolute; width: 100%; height: 100%; pointer-events: none; }
+.bolt .lines::before,
+.bolt .lines::after {
+  content: '';
+  position: absolute;
+  background: linear-gradient(90deg, transparent, rgba(255,200,50,0.6), transparent);
+  height: 1px; width: 30px; border-radius: 1px;
+  animation: speedline 1.2s ease-out infinite;
+}
+.bolt .lines::before { top: 30%; left: -10px; animation-delay: 0s; }
+.bolt .lines::after  { top: 60%; left: -5px; animation-delay: 0.3s; }
+@keyframes speedline {
+  0%   { transform: translateX(-20px); opacity: 0; }
+  30%  { opacity: 1; }
+  100% { transform: translateX(60px); opacity: 0; }
+}
+
+/* Globe section */
+.globe .emoji-wrap {
+  width: 80px;
+  height: 48px;
+}
+
+.globe-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 28px;
+  line-height: 1;
+  z-index: 2;
+  animation: globe-pulse 3s ease-in-out infinite;
+}
+@keyframes globe-pulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50%       { transform: translate(-50%, -50%) scale(1.06); }
+}
+
+/* Label - restored to original pink style */
+.label {
   font-size: 12px;
   font-weight: 600;
   color: #F1B7EA;
   margin: 0;
   letter-spacing: 0.8px;
   text-transform: uppercase;
+  font-family: var(--font-inter), system-ui, sans-serif;
 }
 
 @media (max-width: 768px) {
