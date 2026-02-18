@@ -135,6 +135,8 @@
   justify-content: center;
   gap: 12px;
   margin-bottom: 16px;
+  animation: pan-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  animation-delay: 0.1s;
 }
 
 .launching-soon-line {
@@ -172,6 +174,8 @@
   text-transform: uppercase;
   text-shadow: 0 0 60px rgba(241, 183, 234, 0.4), 0 0 30px rgba(93, 71, 154, 0.3);
   font-family: system-ui, -apple-system, sans-serif;
+  animation: pan-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  animation-delay: 0.2s;
 }
 
 .waitlist-description {
@@ -184,10 +188,16 @@
   max-width: 400px;
   margin-left: auto;
   margin-right: auto;
+  opacity: 0;
+  animation: pan-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 0.3s;
 }
 
 .waitlist-form {
   margin-bottom: 20px;
+  opacity: 0;
+  animation: pan-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 0.3s;
 }
 
 .form-hint {
@@ -266,11 +276,11 @@
   position: relative;
   cursor: default;
   transition: transform 0.3s ease;
-  animation: fadeup 0.6s ease backwards;
+  animation: pan-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) backwards;
 }
-.feature:nth-child(1) { animation-delay: 0.1s; }
-.feature:nth-child(2) { animation-delay: 0.25s; }
-.feature:nth-child(3) { animation-delay: 0.4s; }
+.feature:nth-child(1) { animation-delay: 0.4s; }
+.feature:nth-child(2) { animation-delay: 0.5s; }
+.feature:nth-child(3) { animation-delay: 0.6s; }
 
 .feature:hover { transform: translateY(-2px); }
 
@@ -399,4 +409,16 @@
   box-shadow: 
     0 0 80px 25px rgba(93, 71, 154, 0.5),
     0 0 150px 50px rgba(105, 71, 134, 0.3);
+}
+
+/* Keyframe Animations */
+@keyframes pan-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
