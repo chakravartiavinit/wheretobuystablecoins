@@ -10,9 +10,48 @@ import { Toaster } from "@/components/ui/sonner";
 export default function Home() {
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+
+  const domains = [
+    'gmail.com', 'yahoo.com', 'icloud.com', 'outlook.com', 'hotmail.com',
+    'proton.me', 'protonmail.com'
+  ];
+
+  const handleEmailChange = (e) => {
+    const value = e.target.value;
+    setEmail(value);
+
+    if (!value || value.includes('@') && value.split('@')[1].includes('.')) {
+      setSuggestions([]);
+      setShowSuggestions(false);
+      return;
+    }
+
+    if (value.includes('@')) {
+      const [prefix, domainPart] = value.split('@');
+      const filteredDomains = domains
+        .filter(d => d.startsWith(domainPart))
+        .map(d => `${prefix}@${d}`);
+      setSuggestions(filteredDomains);
+      setShowSuggestions(filteredDomains.length > 0);
+    } else if (value.length > 0) {
+      const newSuggestions = domains.map(d => `${value}@${d}`);
+      setSuggestions(newSuggestions);
+      setShowSuggestions(true);
+    } else {
+      setShowSuggestions(false);
+    }
+  };
+
+  const handleSuggestionClick = (suggestion) => {
+    setEmail(suggestion);
+    setShowSuggestions(false);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setShowSuggestions(false);
 
     if (!email) {
       toast.error('Please enter your email address');
@@ -72,16 +111,33 @@ export default function Home() {
 
         <form onSubmit={handleSubmit} className="waitlist-form" aria-label="Join the waitlist">
           <div className="form-group">
-            <Input
-              type="email"
-              placeholder="Your email address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="waitlist-input !w-auto" /* Force auto width so flex: 1 takes over */
-              disabled={isLoading}
-              aria-label="Email address"
-              autoComplete="email"
-            />
+            <div className="input-wrapper relative flex-1 flex items-center">
+              <Input
+                type="text"
+                placeholder="Your email address"
+                value={email}
+                onChange={handleEmailChange}
+                className="waitlist-input !w-full"
+                disabled={isLoading}
+                aria-label="Email address"
+                autoComplete="off"
+                onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+              />
+
+              {showSuggestions && (
+                <ul className="suggestions-dropdown">
+                  {suggestions.map((suggestion, index) => (
+                    <li
+                      key={index}
+                      onClick={() => handleSuggestionClick(suggestion)}
+                      className="suggestion-item"
+                    >
+                      {suggestion}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
             <Button
               type="submit"
               className="waitlist-button"
@@ -94,7 +150,7 @@ export default function Home() {
           <p className="form-hint">No spam. One email when we launch</p>
         </form>
 
-        <div className="banner" role="list" aria-label="Key features">
+        <div className={`banner ${showSuggestions ? 'opacity-0 pointer-events-none' : ''}`} role="list" aria-label="Key features">
           {/* Compare Rates */}
           <div className="feature money" role="listitem">
             <div className="emoji-wrap">
