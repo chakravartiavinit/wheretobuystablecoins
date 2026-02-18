@@ -428,11 +428,49 @@
 
 @media (max-width: 768px) {
   .waitlist-title {
-    font-size: 36px;
+    font-size: 32px;
+    margin-bottom: 40px;
   }
+  
+  .waitlist-description {
+    font-size: 14px;
+    padding: 0 20px;
+  }
+
   .form-group {
     flex-direction: column;
+    align-items: stretch;
     gap: 12px;
+    max-width: 100%;
+    padding: 0;
+    background: transparent;
+    border: none;
+    backdrop-filter: none;
+  }
+
+  .input-wrapper {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 14px;
+    padding: 6px; /* Add padding here to match original form-group */
+  }
+
+  .waitlist-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .suggestions-dropdown {
+    width: 100%;
+    min-width: unset;
+    left: 0;
+    right: 0;
+  }
+  
+  .banner {
+    gap: 20px 10px;
   }
 }
 
