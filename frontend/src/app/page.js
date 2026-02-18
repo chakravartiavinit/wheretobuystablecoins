@@ -61,12 +61,11 @@ export default function Home() {
         </div>
 
         <h1 id="waitlist-heading" className="waitlist-title">
-          Where to Buy Stablecoins
+          COMING SOON
         </h1>
 
         <p className="waitlist-description">
           Find the cheapest, fastest way to buy stablecoins with your local currency.
-          Compare rates across exchanges — coming soon.
         </p>
 
         <form onSubmit={handleSubmit} className="waitlist-form" aria-label="Join the waitlist">
