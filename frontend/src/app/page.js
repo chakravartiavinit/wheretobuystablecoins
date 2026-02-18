@@ -63,7 +63,7 @@ export default function Home() {
         </div>
 
         <h1 id="waitlist-heading" className="waitlist-title">
-          WHERE TO BUY STABLECOIN?
+          WHERE TO BUY STABLECOINS?
         </h1>
 
         <p className="waitlist-description">
