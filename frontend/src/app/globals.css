@@ -1,0 +1,268 @@
+@import "tailwindcss";
+
+@theme {
+  --font-inter: var(--font-inter);
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+}
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 0 0% 3.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 3.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 3.9%;
+  --primary: 0 0% 9%;
+  --primary-foreground: 0 0% 98%;
+  --secondary: 0 0% 96.1%;
+  --secondary-foreground: 0 0% 9%;
+  --muted: 0 0% 96.1%;
+  --muted-foreground: 0 0% 45.1%;
+  --accent: 0 0% 96.1%;
+  --accent-foreground: 0 0% 9%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 0 0% 89.8%;
+  --input: 0 0% 89.8%;
+  --ring: 0 0% 3.9%;
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: 0 0% 3.9%;
+  --foreground: 0 0% 98%;
+  --card: 0 0% 3.9%;
+  --card-foreground: 0 0% 98%;
+  --popover: 0 0% 3.9%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 0 0% 98%;
+  --primary-foreground: 0 0% 9%;
+  --secondary: 0 0% 14.9%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 0 0% 14.9%;
+  --muted-foreground: 0 0% 63.9%;
+  --accent: 0 0% 14.9%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 0 0% 14.9%;
+  --input: 0 0% 14.9%;
+  --ring: 0 0% 83.1%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    margin: 0;
+    font-family: var(--font-inter), system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: #000000;
+  }
+}
+
+/* Waitlist Page Styles - Dark Background */
+.waitlist-container {
+  min-height: 100vh;
+  background: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.waitlist-content {
+  position: relative;
+  z-index: 1;
+  max-width: 480px;
+  width: 100%;
+  text-align: center;
+  margin-top: 80px;
+}
+
+.status-badge {
+  display: inline-block;
+  background: #1A1A1A;
+  border: 2px solid #333333;
+  border-radius: 0;
+  padding: 3px 10px;
+  margin-bottom: 24px;
+}
+
+.status-badge-text {
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #FFD700;
+}
+
+.waitlist-title {
+  font-size: 48px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -2px;
+  color: #FFFFFF;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  text-shadow: 0 0 60px rgba(241, 183, 234, 0.4), 0 0 30px rgba(93, 71, 154, 0.3);
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.waitlist-description {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.6;
+  letter-spacing: 0.3px;
+  color: #A486B0;
+  margin-bottom: 40px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.waitlist-form {
+  margin-bottom: 50px;
+}
+
+.form-group {
+  display: flex;
+  gap: 8px;
+  max-width: 420px; /* Increased to prevent overlap when text expands */
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 4px;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.form-group:focus-within {
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.waitlist-input {
+  flex: 1;
+  min-width: 0; /* Critical for preventing overflow/overlap in flexbox */
+  background: transparent !important;
+  border: none !important;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #FFFFFF !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.waitlist-button {
+  background: #FFFFFF !important;
+  color: #000000 !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 40px;
+  white-space: nowrap;
+}
+
+.waitlist-button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.9) !important;
+  transform: scale(1.02);
+}
+
+.waitlist-features {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.feature-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.feature-icon {
+  font-size: 28px;
+}
+
+.feature-text {
+  font-size: 12px;
+  font-weight: 600;
+  color: #F1B7EA;
+  margin: 0;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+@media (max-width: 768px) {
+  .waitlist-title {
+    font-size: 36px;
+  }
+  .form-group {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+/* Animations and Background */
+.globe-container {
+  position: fixed;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 300vw;
+  height: 300vw;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.globe-sphere::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 3px solid rgba(93, 71, 154, 0.6);
+  box-shadow: 
+    0 0 80px 25px rgba(93, 71, 154, 0.5),
+    0 0 150px 50px rgba(105, 71, 134, 0.3);
+}
