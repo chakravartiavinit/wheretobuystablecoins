@@ -86,7 +86,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <link rel="canonical" href={siteUrl} />
+        <link rel="canonical" href={`${siteUrl}/`} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

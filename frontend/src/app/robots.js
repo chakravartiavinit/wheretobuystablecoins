@@ -10,6 +10,5 @@ export default function robots() {
             },
         ],
         sitemap: `${siteUrl}/sitemap.xml`,
-        host: siteUrl,
     };
 }

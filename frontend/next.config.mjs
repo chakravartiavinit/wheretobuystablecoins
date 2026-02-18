@@ -3,7 +3,7 @@ const nextConfig = {
   async headers() {
     return [
       {
-        source: "/(.*)",
+        source: "/((?!sitemap.xml|robots.txt).*)",
         headers: [
           {
             key: "X-Robots-Tag",
