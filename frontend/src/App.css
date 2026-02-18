@@ -76,8 +76,8 @@
 
 .waitlist-input {
   flex: 1;
-  background: rgba(60, 45, 87, 0.3);
-  border: 2px solid rgba(164, 134, 176, 0.4);
+  background: rgba(93, 71, 154, 0.2);
+  border: 2px solid #5D479A;
   border-radius: 12px;
   padding: 14px 20px;
   font-size: 15px;
@@ -86,7 +86,7 @@
   min-height: 50px;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   backdrop-filter: blur(10px);
-  box-shadow: 0 0 15px rgba(93, 71, 154, 0.3), 0 0 30px rgba(241, 183, 234, 0.15);
+  box-shadow: 0 0 20px rgba(93, 71, 154, 0.5), 0 0 40px rgba(241, 183, 234, 0.25);
 }
 
 .waitlist-input::placeholder {
@@ -98,8 +98,8 @@
 .waitlist-input:focus {
   outline: none;
   border-color: #5D479A;
-  background: rgba(93, 71, 154, 0.2);
-  box-shadow: 0 0 20px rgba(93, 71, 154, 0.5), 0 0 40px rgba(241, 183, 234, 0.25);
+  background: rgba(93, 71, 154, 0.25);
+  box-shadow: 0 0 25px rgba(93, 71, 154, 0.6), 0 0 50px rgba(241, 183, 234, 0.3);
   transform: translateY(-2px);
 }
 
