@@ -13,9 +13,44 @@ const SORT_OPTIONS = [
 const PAYMENT_OPTIONS = ["ALL", "UPI", "IMPS", "Bank Transfer", "Card"];
 const STABLECOIN_OPTIONS = ["ALL", "USDT", "USDC"];
 
+const PROVIDER_LOGOS = {
+  "Onramp.money": "https://www.google.com/s2/favicons?domain=onramp.money&sz=64",
+  Onmeta: "https://www.google.com/s2/favicons?domain=onmeta.in&sz=64",
+  "Binance P2P": "https://www.google.com/s2/favicons?domain=binance.com&sz=64",
+  "DollarPe (Binance P2P Merchant)": "https://www.google.com/s2/favicons?domain=dollarpe.io&sz=64",
+  Transak: "https://www.google.com/s2/favicons?domain=transak.com&sz=64",
+  MoonPay: "https://www.google.com/s2/favicons?domain=moonpay.com&sz=64",
+  "Ramp Network": "https://www.google.com/s2/favicons?domain=ramp.network&sz=64",
+  Banxa: "https://www.google.com/s2/favicons?domain=banxa.com&sz=64",
+  Mercuryo: "https://www.google.com/s2/favicons?domain=mercuryo.io&sz=64",
+  Guardarian: "https://www.google.com/s2/favicons?domain=guardarian.com&sz=64",
+};
+
+const getMedianPrice = (rows) => {
+  if (!rows?.length) return null;
+  const sorted = rows.map((p) => p.effectivePrice).sort((a, b) => a - b);
+  const mid = Math.floor(sorted.length / 2);
+  return sorted.length % 2 === 0
+    ? Number(((sorted[mid - 1] + sorted[mid]) / 2).toFixed(2))
+    : Number(sorted[mid].toFixed(2));
+};
+
+const buildPath = (points, width, height, min, max) => {
+  if (!points.length) return "";
+  const span = Math.max(max - min, 0.0001);
+  return points
+    .map((p, i) => {
+      const x = (i / Math.max(points.length - 1, 1)) * width;
+      const y = height - ((p.value - min) / span) * height;
+      return `${i === 0 ? "M" : "L"}${x.toFixed(2)},${y.toFixed(2)}`;
+    })
+    .join(" ");
+};
+
 export default function Home() {
   const [providers, setProviders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [medianHistory, setMedianHistory] = useState([]);
 
   const [sortBy, setSortBy] = useState("best_overall");
   const [paymentMethod, setPaymentMethod] = useState("ALL");
@@ -63,6 +98,14 @@ export default function Home() {
         prevRankMap.current = nextRankMap;
         setRankDeltaMap(delta);
         setProviders(nextProviders);
+
+        const median = getMedianPrice(nextProviders);
+        if (median !== null) {
+          setMedianHistory((prev) => {
+            const next = [...prev, { ts: Date.now(), value: median }];
+            return next.slice(-40);
+          });
+        }
       } catch {
         if (!silent) setProviders([]);
       } finally {
@@ -121,20 +164,34 @@ export default function Home() {
     return `₹${providers[0].effectivePrice.toFixed(2)}`;
   }, [providers]);
 
-  return (
-    <main className="comparison-container" role="main">
-      <AnimatedBackground />
+  const medianNow = useMemo(() => getMedianPrice(providers), [providers]);
 
+  const chartData = useMemo(() => {
+    const width = 100;
+    const height = 36;
+    if (!medianHistory.length) {
+      return { path: "", min: 0, max: 0, width, height };
+    }
+    const values = medianHistory.map((p) => p.value);
+    const min = Math.min(...values);
+    const max = Math.max(...values);
+    const path = buildPath(medianHistory, width, height, min, max);
+    return { path, min, max, width, height };
+  }, [medianHistory]);
+
+  return (
+    <main className="comparison-container minimal" role="main">
+      <AnimatedBackground />
       <section className="comparison-content">
         <div className="launching-soon">
           <span className="launching-soon-line" />
-          <span className="launching-soon-text">India v1 live</span>
+          <span className="launching-soon-text">We are Live</span>
           <span className="launching-soon-line" />
         </div>
 
-        <h1 className="waitlist-title">WHERE TO BUY STABLECOINS?</h1>
-        <p className="waitlist-description">
-          Compare INR providers by effective price, KYC, payment rails, speed, and social trust.
+        <h1 className="waitlist-title centered-title">WHERE TO BUY STABLECOINS?</h1>
+        <p className="waitlist-description centered-desc">
+          Find the cheapest, fastest way to buy stablecoins with your local currency
         </p>
 
         <div className="snapshot-grid">
@@ -149,6 +206,24 @@ export default function Home() {
           <div className="snapshot-card">
             <div className="snapshot-label">Best effective price</div>
             <div className="snapshot-value">{loading ? "..." : estimatedBestPrice}</div>
+          </div>
+          <div className="snapshot-card">
+            <div className="snapshot-label">Median provider price</div>
+            <div className="snapshot-value">{medianNow ? `₹${medianNow.toFixed(2)}` : "--"}</div>
+          </div>
+        </div>
+
+        <div className="chart-card">
+          <div className="chart-header">
+            <h3>Median Price Trend</h3>
+            <span>updates every 10s • {medianHistory.length || 0} points</span>
+          </div>
+          <svg viewBox={`0 0 ${chartData.width} ${chartData.height}`} className="median-chart" preserveAspectRatio="none">
+            <path d={chartData.path} className="median-path" />
+          </svg>
+          <div className="chart-footer">
+            <span>Low ₹{chartData.min?.toFixed ? chartData.min.toFixed(2) : "--"}</span>
+            <span>High ₹{chartData.max?.toFixed ? chartData.max.toFixed(2) : "--"}</span>
           </div>
         </div>
 
@@ -246,7 +321,12 @@ export default function Home() {
                     </span>
                   </div>
                   <div className="provider-brand-row">
-                    <span className="provider-logo">{provider.name.slice(0, 2).toUpperCase()}</span>
+                    <img
+                      className="provider-logo-img"
+                      src={PROVIDER_LOGOS[provider.name] || "https://www.google.com/s2/favicons?domain=crypto.com&sz=64"}
+                      alt={`${provider.name} logo`}
+                      loading="lazy"
+                    />
                     <div>
                       <h3>{provider.name}</h3>
                       <p className="provider-notes">{provider.notes}</p>
