@@ -930,3 +930,97 @@
     text-align: left;
   }
 }
+
+/* Terminal-style provider dashboard */
+.terminal-list {
+  border: 1px solid rgba(90, 70, 140, 0.45);
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(5, 6, 14, 0.88);
+}
+
+.timeline-strip {
+  display: grid;
+  grid-template-columns: repeat(11, 1fr);
+  gap: 8px;
+  font-size: 11px;
+  color: rgba(180, 165, 210, 0.58);
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(90, 70, 140, 0.4);
+  background: linear-gradient(180deg, rgba(27, 18, 46, 0.6), rgba(8, 8, 18, 0.6));
+}
+
+.terminal-head-row,
+.terminal-row {
+  grid-template-columns: 1.5fr .7fr .8fr .7fr 1fr 1.25fr 1fr 1.8fr .2fr;
+}
+
+.terminal-head-row {
+  border-top: 1px solid rgba(90, 70, 140, 0.35);
+  border-bottom: 1px solid rgba(90, 70, 140, 0.35);
+  background: rgba(20, 14, 32, 0.75);
+}
+
+.terminal-row {
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  border-bottom: 1px solid rgba(65, 52, 99, 0.35);
+  padding: 10px 12px;
+  background: rgba(7, 8, 18, 0.72);
+}
+
+.terminal-row:hover {
+  background: rgba(25, 17, 40, 0.6);
+}
+
+.terminal-source {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.terminal-source h3 {
+  font-size: 15px;
+  margin: 0;
+  color: #f2ecff;
+}
+
+.type-pill {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.type-pill.cex { color: #c9cde3; }
+.type-pill.dex { color: #65f0bb; border-color: rgba(101,240,187,.35); }
+.type-pill.p2p { color: #f9ca7a; border-color: rgba(249,202,122,.35); }
+
+.quote-col, .chain-col { color: #b5a8da; }
+.route-col { color: rgba(178, 166, 211, 0.7); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.pos { color: #59d8a1; }
+.neg { color: #ff7d92; }
+
+.status-dot-wrap { display: flex; justify-content: center; }
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  display: inline-block;
+}
+.status-dot.live { background: #43ffb1; box-shadow: 0 0 8px rgba(67,255,177,.75); }
+.status-dot.offline { background: #ffffff; opacity: .55; }
+
+@media (max-width: 1100px) {
+  .timeline-strip { display: none; }
+  .terminal-head-row,
+  .terminal-row {
+    grid-template-columns: 1.4fr .7fr .7fr .8fr 1fr;
+  }
+  .terminal-head-row span:nth-child(n+6),
+  .terminal-row > div:nth-child(n+6) { display: none; }
+}
+
