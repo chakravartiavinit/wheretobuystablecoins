@@ -47,6 +47,19 @@ const buildPath = (points, width, height, min, max) => {
     .join(" ");
 };
 
+const classifyType = (provider) => {
+  if (provider.name.toLowerCase().includes("p2p") || provider.name.toLowerCase().includes("merchant")) return "P2P";
+  if (provider.name.toLowerCase().includes("ramp") || provider.name.toLowerCase().includes("moonpay") || provider.name.toLowerCase().includes("transak")) return "DEX";
+  return "CEX";
+};
+
+const getChain = (provider) => {
+  if (provider.stablecoins.includes("USDC")) return "Ethereum";
+  return "--";
+};
+
+const formatSigned = (n) => `${n >= 0 ? "+" : ""}${n.toFixed(4)}`;
+
 export default function Home() {
   const [providers, setProviders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -288,15 +301,23 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="providers-list">
-          <div className="providers-head-row sticky-head">
-            <span>Provider</span>
+        <div className="providers-list terminal-list">
+          <div className="timeline-strip">
+            {["22:00", "23:30", "01:01", "02:30", "04:01", "05:30", "07:00", "08:30", "10:01", "11:30", "12:00"].map((t) => (
+              <span key={t}>{t}</span>
+            ))}
+          </div>
+
+          <div className="providers-head-row sticky-head terminal-head-row">
+            <span>Source</span>
+            <span>Type</span>
+            <span>Chain</span>
+            <span>Quote</span>
             <span>Price</span>
-            <span>Speed</span>
-            <span>KYC</span>
-            <span>Payment</span>
-            <span>Trust</span>
-            <span>Action</span>
+            <span>Vs Median</span>
+            <span>Impact</span>
+            <span>Route</span>
+            <span></span>
           </div>
 
           {loading && <p className="empty-state">Loading providers...</p>}
@@ -305,22 +326,14 @@ export default function Home() {
           )}
 
           {!loading &&
-            providers.map((provider, index) => (
-              <article key={provider.id} className="provider-card provider-row" ref={setCardRef(provider.id)}>
-                <div className="provider-col provider-main">
-                  <div className="rank-row">
-                    <p className="rank-chip">#{index + 1}</p>
-                    {rankDeltaMap[provider.id] > 0 && (
-                      <span className="rank-delta up">↑{rankDeltaMap[provider.id]}</span>
-                    )}
-                    {rankDeltaMap[provider.id] < 0 && (
-                      <span className="rank-delta down">↓{Math.abs(rankDeltaMap[provider.id])}</span>
-                    )}
-                    <span className={`status-pill ${provider.isLive ? "live" : "offline"}`}>
-                      {provider.isLive ? "Live" : "Offline"}
-                    </span>
-                  </div>
-                  <div className="provider-brand-row">
+            providers.map((provider, index) => {
+              const median = medianNow || provider.effectivePrice;
+              const diff = provider.effectivePrice - median;
+              const diffPct = median ? (diff / median) * 100 : 0;
+              const impact = diff * 1000;
+              return (
+                <article key={provider.id} className="provider-card provider-row terminal-row" ref={setCardRef(provider.id)}>
+                  <div className="provider-col provider-main terminal-source">
                     <img
                       className="provider-logo-img"
                       src={PROVIDER_LOGOS[provider.name] || "https://www.google.com/s2/favicons?domain=crypto.com&sz=64"}
@@ -329,26 +342,22 @@ export default function Home() {
                     />
                     <div>
                       <h3>{provider.name}</h3>
-                      <p className="provider-notes">{provider.notes}</p>
                     </div>
                   </div>
-                </div>
 
-                <div className="provider-col price-col">
-                  <strong>₹{provider.effectivePrice.toFixed(2)}</strong>
-                  <small>/ USDT</small>
-                </div>
-
-                <div className="provider-col">{provider.settlementMins[0]}-{provider.settlementMins[1]} min</div>
-                <div className="provider-col">{provider.kycRequired ? "Yes" : "No"}</div>
-                <div className="provider-col payment-col">{provider.paymentMethods.slice(0, 2).join(", ")}</div>
-                <div className="provider-col">{provider.review.rating}/5</div>
-
-                <div className="provider-col action-col">
-                  <a className="provider-link buy-link" href={`/provider/${provider.id}`}>Buy</a>
-                </div>
-              </article>
-            ))}
+                  <div className="provider-col"><span className={`type-pill ${classifyType(provider).toLowerCase()}`}>{classifyType(provider)}</span></div>
+                  <div className="provider-col chain-col">{getChain(provider)}</div>
+                  <div className="provider-col quote-col">{provider.stablecoins[0] || "USDT"}</div>
+                  <div className="provider-col price-col"><strong>₹{provider.effectivePrice.toFixed(4)}</strong></div>
+                  <div className={`provider-col ${diff <= 0 ? "pos" : "neg"}`}>{formatSigned(diff)} ({formatSigned(diffPct)}%)</div>
+                  <div className={`provider-col ${impact <= 0 ? "pos" : "neg"}`}>{formatSigned(impact)}</div>
+                  <div className="provider-col route-col">{provider.notes}</div>
+                  <div className="provider-col status-dot-wrap">
+                    <span className={`status-dot ${provider.isLive ? "live" : "offline"}`}></span>
+                  </div>
+                </article>
+              );
+            })}
         </div>
       </section>
     </main>
