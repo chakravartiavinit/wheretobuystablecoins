@@ -214,6 +214,16 @@ export default function Home() {
         </div>
 
         <div className="providers-list">
+          <div className="providers-head-row sticky-head">
+            <span>Provider</span>
+            <span>Price</span>
+            <span>Speed</span>
+            <span>KYC</span>
+            <span>Payment</span>
+            <span>Trust</span>
+            <span>Action</span>
+          </div>
+
           {loading && <p className="empty-state">Loading providers...</p>}
           {!loading && providers.length === 0 && (
             <p className="empty-state">No providers match your filters right now.</p>
@@ -221,42 +231,41 @@ export default function Home() {
 
           {!loading &&
             providers.map((provider, index) => (
-              <article key={provider.id} className="provider-card" ref={setCardRef(provider.id)}>
-                <div className="provider-head">
-                  <div>
-                    <div className="rank-row">
-                      <p className="rank-chip">#{index + 1}</p>
-                      {rankDeltaMap[provider.id] > 0 && (
-                        <span className="rank-delta up">↑{rankDeltaMap[provider.id]}</span>
-                      )}
-                      {rankDeltaMap[provider.id] < 0 && (
-                        <span className="rank-delta down">↓{Math.abs(rankDeltaMap[provider.id])}</span>
-                      )}
-                    </div>
-                    <div className="provider-title-row">
-                      <h3>{provider.name}</h3>
-                      <span className={`status-pill ${provider.isLive ? "live" : "offline"}`}>
-                        {provider.isLive ? "Live" : "Offline"}
-                      </span>
-                    </div>
-                    <p className="provider-notes">{provider.notes}</p>
-                    <a className="provider-link" href={`/provider/${provider.id}`}>View details</a>
+              <article key={provider.id} className="provider-card provider-row" ref={setCardRef(provider.id)}>
+                <div className="provider-col provider-main">
+                  <div className="rank-row">
+                    <p className="rank-chip">#{index + 1}</p>
+                    {rankDeltaMap[provider.id] > 0 && (
+                      <span className="rank-delta up">↑{rankDeltaMap[provider.id]}</span>
+                    )}
+                    {rankDeltaMap[provider.id] < 0 && (
+                      <span className="rank-delta down">↓{Math.abs(rankDeltaMap[provider.id])}</span>
+                    )}
+                    <span className={`status-pill ${provider.isLive ? "live" : "offline"}`}>
+                      {provider.isLive ? "Live" : "Offline"}
+                    </span>
                   </div>
-                  <div className="price-box">
-                    <span>Effective</span>
-                    <strong>₹{provider.effectivePrice.toFixed(2)}</strong>
-                    <small>/ USDT</small>
+                  <div className="provider-brand-row">
+                    <span className="provider-logo">{provider.name.slice(0, 2).toUpperCase()}</span>
+                    <div>
+                      <h3>{provider.name}</h3>
+                      <p className="provider-notes">{provider.notes}</p>
+                    </div>
                   </div>
                 </div>
 
-                <div className="provider-metrics">
-                  <p><span>Payment</span>{provider.paymentMethods.join(", ")}</p>
-                  <p><span>KYC</span>{provider.kycLevel}</p>
-                  <p><span>Speed</span>{provider.settlementMins[0]}-{provider.settlementMins[1]} mins</p>
-                  <p><span>Limits</span>₹{provider.limitsInr.min.toLocaleString()} - ₹{provider.limitsInr.max.toLocaleString()}</p>
-                  <p><span>Reviews</span>{provider.review.rating}/5 ({provider.review.sampleSize} mentions)</p>
-                  <p><span>Score</span>{provider.score.totalScore}</p>
-                  <p><span>Why this rank</span>Price {provider.score.priceScore} • Speed {provider.score.speedScore} • Trust {provider.score.trustScore}</p>
+                <div className="provider-col price-col">
+                  <strong>₹{provider.effectivePrice.toFixed(2)}</strong>
+                  <small>/ USDT</small>
+                </div>
+
+                <div className="provider-col">{provider.settlementMins[0]}-{provider.settlementMins[1]} min</div>
+                <div className="provider-col">{provider.kycRequired ? "Yes" : "No"}</div>
+                <div className="provider-col payment-col">{provider.paymentMethods.slice(0, 2).join(", ")}</div>
+                <div className="provider-col">{provider.review.rating}/5</div>
+
+                <div className="provider-col action-col">
+                  <a className="provider-link buy-link" href={`/provider/${provider.id}`}>Buy</a>
                 </div>
               </article>
             ))}
