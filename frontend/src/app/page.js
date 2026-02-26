@@ -1,184 +1,267 @@
 "use client";
 
-import React, { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { toast } from 'sonner';
-import AnimatedBackground from '@/components/AnimatedBackground';
-import { Toaster } from "@/components/ui/sonner";
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import AnimatedBackground from "@/components/AnimatedBackground";
+
+const SORT_OPTIONS = [
+  { value: "best_overall", label: "Best overall" },
+  { value: "lowest_total_cost", label: "Lowest total cost" },
+  { value: "fastest", label: "Fastest" },
+  { value: "no_kyc_first", label: "No KYC first" },
+];
+
+const PAYMENT_OPTIONS = ["ALL", "UPI", "IMPS", "Bank Transfer", "Card"];
+const STABLECOIN_OPTIONS = ["ALL", "USDT", "USDC"];
 
 export default function Home() {
-  const [email, setEmail] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [suggestions, setSuggestions] = useState([]);
-  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [providers, setProviders] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const domains = [
-    'gmail.com', 'yahoo.com', 'icloud.com', 'outlook.com', 'hotmail.com',
-    'proton.me', 'protonmail.com'
-  ];
+  const [sortBy, setSortBy] = useState("best_overall");
+  const [paymentMethod, setPaymentMethod] = useState("ALL");
+  const [stablecoin, setStablecoin] = useState("ALL");
+  const [kycRequired, setKycRequired] = useState("ALL");
+  const [amountInr, setAmountInr] = useState("");
+  const [rankDeltaMap, setRankDeltaMap] = useState({});
 
-  const handleEmailChange = (e) => {
-    const value = e.target.value;
-    setEmail(value);
+  const cardRefs = useRef(new Map());
+  const prevPositions = useRef(new Map());
+  const prevRankMap = useRef(new Map());
 
-    if (!value || value.includes('@') && value.split('@')[1].includes('.')) {
-      setSuggestions([]);
-      setShowSuggestions(false);
-      return;
-    }
-
-    if (value.includes('@')) {
-      const [prefix, domainPart] = value.split('@');
-      const filteredDomains = domains
-        .filter(d => d.startsWith(domainPart))
-        .map(d => `${prefix}@${d}`);
-      setSuggestions(filteredDomains);
-      setShowSuggestions(filteredDomains.length > 0);
-    } else if (value.length > 0) {
-      const newSuggestions = domains.map(d => `${value}@${d}`);
-      setSuggestions(newSuggestions);
-      setShowSuggestions(true);
-    } else {
-      setShowSuggestions(false);
-    }
+  const setCardRef = (id) => (el) => {
+    if (el) cardRefs.current.set(id, el);
+    else cardRefs.current.delete(id);
   };
 
-  const handleSuggestionClick = (suggestion) => {
-    setEmail(suggestion);
-    setShowSuggestions(false);
-  };
+  const fetchProviders = useCallback(
+    async ({ silent = false } = {}) => {
+      if (!silent) setLoading(true);
+      try {
+        const params = new URLSearchParams({ fiat: "INR", sortBy });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setShowSuggestions(false);
+        if (paymentMethod !== "ALL") params.set("paymentMethod", paymentMethod);
+        if (stablecoin !== "ALL") params.set("stablecoin", stablecoin);
+        if (kycRequired !== "ALL") params.set("kycRequired", kycRequired);
+        if (amountInr) params.set("amountInr", amountInr);
 
-    if (!email) {
-      toast.error('Please enter your email address');
-      return;
-    }
+        params.set("live", "true");
+        const response = await fetch(`/api/providers?${params.toString()}`);
+        const json = await response.json();
+        const nextProviders = json.data || [];
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      toast.error('Please enter a valid email address');
-      return;
-    }
+        const nextRankMap = new Map(nextProviders.map((provider, index) => [provider.id, index + 1]));
+        const delta = {};
+        nextRankMap.forEach((nextRank, id) => {
+          const prevRank = prevRankMap.current.get(id);
+          if (typeof prevRank === "number") {
+            delta[id] = prevRank - nextRank;
+          } else {
+            delta[id] = 0;
+          }
+        });
 
-    setIsLoading(true);
+        prevRankMap.current = nextRankMap;
+        setRankDeltaMap(delta);
+        setProviders(nextProviders);
+      } catch {
+        if (!silent) setProviders([]);
+      } finally {
+        if (!silent) setLoading(false);
+      }
+    },
+    [sortBy, paymentMethod, stablecoin, kycRequired, amountInr]
+  );
 
-    try {
-      const response = await fetch('/api/waitlist', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email }),
+  useEffect(() => {
+    fetchProviders();
+  }, [fetchProviders]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchProviders({ silent: true });
+    }, 10000);
+    return () => clearInterval(interval);
+  }, [fetchProviders]);
+
+  useLayoutEffect(() => {
+    const newPositions = new Map();
+    cardRefs.current.forEach((el, id) => {
+      newPositions.set(id, el.getBoundingClientRect());
+    });
+
+    cardRefs.current.forEach((el, id) => {
+      const prev = prevPositions.current.get(id);
+      const next = newPositions.get(id);
+      if (!prev || !next) return;
+
+      const deltaY = prev.top - next.top;
+      if (Math.abs(deltaY) < 1) return;
+
+      el.style.transition = "none";
+      el.style.transform = `translateY(${deltaY}px)`;
+      el.style.zIndex = "2";
+
+      requestAnimationFrame(() => {
+        el.style.transition = "transform 550ms cubic-bezier(0.22, 1, 0.36, 1)";
+        el.style.transform = "translateY(0)";
       });
 
-      const result = await response.json();
+      const cleanup = () => {
+        el.style.zIndex = "";
+        el.removeEventListener("transitionend", cleanup);
+      };
+      el.addEventListener("transitionend", cleanup);
+    });
 
-      if (response.ok) {
-        toast.success('🎉 Successfully joined the waitlist!');
-        setEmail('');
-      } else {
-        toast.error(result.error || 'Failed to join the waitlist');
-      }
-    } catch (error) {
-      toast.error('Something went wrong. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    prevPositions.current = newPositions;
+  }, [providers]);
+
+  const estimatedBestPrice = useMemo(() => {
+    if (!providers.length) return "--";
+    return `₹${providers[0].effectivePrice.toFixed(2)}`;
+  }, [providers]);
 
   return (
-    <main className="waitlist-container" role="main">
+    <main className="comparison-container" role="main">
       <AnimatedBackground />
 
-      <section className="waitlist-content" aria-labelledby="waitlist-heading">
+      <section className="comparison-content">
         <div className="launching-soon">
           <span className="launching-soon-line" />
-          <span className="launching-soon-text">Launching Soon</span>
+          <span className="launching-soon-text">India v1 live</span>
           <span className="launching-soon-line" />
         </div>
 
-        <h1 id="waitlist-heading" className="waitlist-title">
-          WHERE TO BUY STABLECOINS?
-        </h1>
-
+        <h1 className="waitlist-title">WHERE TO BUY STABLECOINS?</h1>
         <p className="waitlist-description">
-          Find the cheapest, fastest way to buy stablecoins with your local currency
+          Compare INR providers by effective price, KYC, payment rails, speed, and social trust.
         </p>
 
-        <form onSubmit={handleSubmit} className="waitlist-form" aria-label="Join the waitlist">
-          <div className="form-group">
-            <div className="input-wrapper relative flex-1 flex items-center">
-              <Input
-                type="text"
-                placeholder="Your email address"
-                value={email}
-                onChange={handleEmailChange}
-                className="waitlist-input !w-full"
-                disabled={isLoading}
-                aria-label="Email address"
-                autoComplete="off"
-                onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-              />
-
-              {showSuggestions && (
-                <ul className="suggestions-dropdown">
-                  {suggestions.map((suggestion, index) => (
-                    <li
-                      key={index}
-                      onClick={() => handleSuggestionClick(suggestion)}
-                      className="suggestion-item"
-                    >
-                      {suggestion}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-            <Button
-              type="submit"
-              className="waitlist-button"
-              disabled={isLoading}
-              aria-label="Join waitlist"
-            >
-              {isLoading ? 'Adding to Waitlist' : 'Get Notified'}
-            </Button>
+        <div className="snapshot-grid">
+          <div className="snapshot-card">
+            <div className="snapshot-label">Fiat</div>
+            <div className="snapshot-value">INR</div>
           </div>
-          <p className="form-hint">No spam. One email when we launch</p>
-        </form>
-
-        <div className={`banner ${showSuggestions ? 'opacity-0 pointer-events-none' : ''}`} role="list" aria-label="Key features">
-          {/* Compare Rates */}
-          <div className="feature money" role="listitem">
-            <div className="emoji-wrap">
-              <span className="emoji">💰</span>
-            </div>
-            <div className="label">Compare Rates</div>
+          <div className="snapshot-card">
+            <div className="snapshot-label">Providers shown</div>
+            <div className="snapshot-value">{loading ? "..." : providers.length}</div>
           </div>
-
-          {/* Fastest Routes */}
-          <div className="feature bolt" role="listitem">
-            <div className="emoji-wrap">
-              <div className="lines"></div>
-              <span className="emoji">⚡</span>
-            </div>
-            <div className="label">Instant Settlement</div>
-          </div>
-
-          {/* Local Currency */}
-          <div className="feature globe" role="listitem">
-            <div className="emoji-wrap">
-              <span className="globe-center">🌍</span>
-            </div>
-            <div className="label">Local Currency</div>
+          <div className="snapshot-card">
+            <div className="snapshot-label">Best effective price</div>
+            <div className="snapshot-value">{loading ? "..." : estimatedBestPrice}</div>
           </div>
         </div>
+
+        <div className="filters-card">
+          <div className="filters-grid">
+            <label className="filter-field">
+              <span>Sort by</span>
+              <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+                {SORT_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label className="filter-field">
+              <span>Payment method</span>
+              <select value={paymentMethod} onChange={(e) => setPaymentMethod(e.target.value)}>
+                {PAYMENT_OPTIONS.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label className="filter-field">
+              <span>Stablecoin</span>
+              <select value={stablecoin} onChange={(e) => setStablecoin(e.target.value)}>
+                {STABLECOIN_OPTIONS.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label className="filter-field">
+              <span>KYC</span>
+              <select value={kycRequired} onChange={(e) => setKycRequired(e.target.value)}>
+                <option value="ALL">All</option>
+                <option value="true">KYC required</option>
+                <option value="false">No KYC</option>
+              </select>
+            </label>
+
+            <label className="filter-field">
+              <span>Amount (INR)</span>
+              <div className="amount-row">
+                <input
+                  type="number"
+                  value={amountInr}
+                  onChange={(e) => setAmountInr(e.target.value)}
+                  placeholder="e.g. 10000"
+                />
+                <button className="mini-btn" onClick={() => fetchProviders()}>
+                  Apply
+                </button>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div className="providers-list">
+          {loading && <p className="empty-state">Loading providers...</p>}
+          {!loading && providers.length === 0 && (
+            <p className="empty-state">No providers match your filters right now.</p>
+          )}
+
+          {!loading &&
+            providers.map((provider, index) => (
+              <article key={provider.id} className="provider-card" ref={setCardRef(provider.id)}>
+                <div className="provider-head">
+                  <div>
+                    <div className="rank-row">
+                      <p className="rank-chip">#{index + 1}</p>
+                      {rankDeltaMap[provider.id] > 0 && (
+                        <span className="rank-delta up">↑{rankDeltaMap[provider.id]}</span>
+                      )}
+                      {rankDeltaMap[provider.id] < 0 && (
+                        <span className="rank-delta down">↓{Math.abs(rankDeltaMap[provider.id])}</span>
+                      )}
+                    </div>
+                    <div className="provider-title-row">
+                      <h3>{provider.name}</h3>
+                      <span className={`status-pill ${provider.isLive ? "live" : "offline"}`}>
+                        {provider.isLive ? "Live" : "Offline"}
+                      </span>
+                    </div>
+                    <p className="provider-notes">{provider.notes}</p>
+                    <a className="provider-link" href={`/provider/${provider.id}`}>View details</a>
+                  </div>
+                  <div className="price-box">
+                    <span>Effective</span>
+                    <strong>₹{provider.effectivePrice.toFixed(2)}</strong>
+                    <small>/ USDT</small>
+                  </div>
+                </div>
+
+                <div className="provider-metrics">
+                  <p><span>Payment</span>{provider.paymentMethods.join(", ")}</p>
+                  <p><span>KYC</span>{provider.kycLevel}</p>
+                  <p><span>Speed</span>{provider.settlementMins[0]}-{provider.settlementMins[1]} mins</p>
+                  <p><span>Limits</span>₹{provider.limitsInr.min.toLocaleString()} - ₹{provider.limitsInr.max.toLocaleString()}</p>
+                  <p><span>Reviews</span>{provider.review.rating}/5 ({provider.review.sampleSize} mentions)</p>
+                  <p><span>Score</span>{provider.score.totalScore}</p>
+                  <p><span>Why this rank</span>Price {provider.score.priceScore} • Speed {provider.score.speedScore} • Trust {provider.score.trustScore}</p>
+                </div>
+              </article>
+            ))}
+        </div>
       </section>
-      <Toaster position="top-center" />
     </main>
   );
 }
-
