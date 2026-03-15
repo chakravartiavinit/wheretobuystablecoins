@@ -1,6 +1,7 @@
 import providers from '@/data/providers-inr.json';
 import { rankProviders, SORT_OPTIONS } from '@/lib/ranking';
 import { fetchAllQuotes } from '@/lib/quotes';
+import { DEFAULT_FIAT, getFiatConfig } from '@/lib/fiats';
 
 const parseBoolean = (value) => {
   if (value === undefined || value === null || value === '') return null;
@@ -9,10 +10,28 @@ const parseBoolean = (value) => {
   return null;
 };
 
+const CACHE_TTL_MS = 60 * 1000; // 60 seconds
+const liveQuotesCache = new Map(); // key: fiat, value: { quotes, health, cachedAt }
+
+async function getLiveQuotes(fiat) {
+  const key = fiat || DEFAULT_FIAT;
+  const cached = liveQuotesCache.get(key);
+  if (cached && Date.now() - cached.cachedAt < CACHE_TTL_MS) {
+    return { quotes: cached.quotes, health: cached.health };
+  }
+  const live = await fetchAllQuotes(key);
+  liveQuotesCache.set(key, {
+    quotes: live.quotes,
+    health: live.health,
+    cachedAt: Date.now(),
+  });
+  return { quotes: live.quotes, health: live.health };
+}
+
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
 
-  const fiat = searchParams.get('fiat') || 'INR';
+  const fiat = searchParams.get('fiat') || DEFAULT_FIAT;
   const paymentMethod = searchParams.get('paymentMethod');
   const kycRequired = parseBoolean(searchParams.get('kycRequired'));
   const stablecoin = searchParams.get('stablecoin');
@@ -20,17 +39,21 @@ export async function GET(request) {
   const sortBy = searchParams.get('sortBy') || SORT_OPTIONS.BEST_OVERALL;
   const liveQuotes = searchParams.get('live') === 'true';
 
+  // V0: only INR is supported; normalize to supported fiat
+  const fiatConfig = getFiatConfig(fiat);
+  const resolvedFiat = fiatConfig?.code ?? DEFAULT_FIAT;
+
   let dataset = providers;
   let health = [];
 
   if (liveQuotes) {
-    const live = await fetchAllQuotes();
-    health = live.health;
-    const quoteMap = new Map(live.quotes.map((q) => [q.providerId, q]));
+    const { quotes, health: adapterHealth } = await getLiveQuotes(resolvedFiat);
+    health = adapterHealth;
+    const quoteMap = new Map(quotes.map((q) => [q.providerId, q]));
 
     dataset = providers.map((provider) => {
       const quote = quoteMap.get(provider.id);
-      if (!quote) return provider;
+      if (!quote) return { ...provider, source: "seed" };
       return {
         ...provider,
         buyRateInrPerUsdt: quote.buyRateInrPerUsdt,
@@ -40,11 +63,12 @@ export async function GET(request) {
         effectivePrice: quote.effectivePrice,
         isLive: quote.isLive ?? provider.isLive,
         quoteTimestamp: quote.timestamp,
+        source: quote.source ?? (quote.timestamp ? "live" : "seed"),
       };
     });
   }
 
-  let filtered = dataset.filter((provider) => provider.fiat === fiat);
+  let filtered = dataset.filter((provider) => provider.fiat === resolvedFiat);
 
   if (paymentMethod && paymentMethod !== 'ALL') {
     filtered = filtered.filter((provider) =>
@@ -72,7 +96,7 @@ export async function GET(request) {
     success: true,
     data: ranked,
     meta: {
-      fiat,
+      fiat: resolvedFiat,
       count: ranked.length,
       sortBy,
       updatedAt: new Date().toISOString(),
